@@ -1,6 +1,6 @@
 {
-    "name": "coupon_knock",
-    "short_name": "coupon_knock",
+    "name": "쿠폰콕",
+    "short_name": "쿠폰콕",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",

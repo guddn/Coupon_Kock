@@ -35,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Coupon Knock'),
+        title: const Text('쿠폰콕'),
         actions: [
           IconButton(
             tooltip: '프로필',

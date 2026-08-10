@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import 'features/home/home_screen.dart';
 
-class CouponKnockApp extends StatelessWidget {
-  const CouponKnockApp({super.key});
+class CouponKockApp extends StatelessWidget {
+  const CouponKockApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     const seed = Color(0xFF2962FF);
     return MaterialApp(
-      title: 'Coupon Knock',
+      title: '쿠폰콕',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: seed),

@@ -5,7 +5,7 @@ from app.api.router import router
 from app.core.config import settings
 
 app = FastAPI(
-    title="Coupon Knock API",
+    title="쿠폰콕 API",
     version="0.1.0",
     description="위치 기반 쿠폰·혜택 추천 MVP API",
 )

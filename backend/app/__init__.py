@@ -1,1 +1,1 @@
-"""Coupon Knock backend package."""
+"""Coupon Kock backend package."""

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "kr.ac.ajou.couponknock.coupon_knock"
+    namespace = "kr.ac.ajou.couponkock"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -21,7 +21,7 @@ android {
 
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "kr.ac.ajou.couponknock.coupon_knock"
+        applicationId = "kr.ac.ajou.couponkock"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion

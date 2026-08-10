@@ -1,4 +1,4 @@
-package kr.ac.ajou.couponknock.coupon_knock
+package kr.ac.ajou.couponkock
 
 import io.flutter.embedding.android.FlutterActivity
 

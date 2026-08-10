@@ -1,4 +1,4 @@
-# coupon_knock
+# 쿠폰콕 (Coupon Kock)
 
 위치 기반 쿠폰·혜택 최적화 에이전트
 
