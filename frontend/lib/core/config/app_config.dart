@@ -3,6 +3,6 @@ class AppConfig {
 
   static const apiBaseUrl = String.fromEnvironment(
     'API_BASE_URL',
-    defaultValue: 'http://localhost:8080',
+    defaultValue: 'https://coupon-kock-663890381698.asia-northeast3.run.app',
   );
 }

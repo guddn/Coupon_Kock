@@ -28,21 +28,23 @@ docs/               아키텍처, API, 데이터, 구현 계획
 
 Python 3.11 이상이 필요합니다.
 
-```powershell
+```bash
 cd backend
 python -m venv .venv
-.\.venv\Scripts\Activate.ps1
+source .venv/Scripts/activate
 pip install -e ".[dev]"
-Copy-Item .env.example .env
+cp .env.example .env
 uvicorn app.main:app --reload
 ```
 
 - 상태 확인: `GET http://localhost:8080/health`
 - API 문서: `http://localhost:8080/docs`
+- ADK 정보: `GET http://localhost:8080/api/agent`
+- ADK 추천 실행: `POST http://localhost:8080/api/agent/recommendations`
 
 ### Flutter
 
-```powershell
+```bash
 cd frontend
 flutter pub get
 flutter run --dart-define=API_BASE_URL=http://localhost:8080

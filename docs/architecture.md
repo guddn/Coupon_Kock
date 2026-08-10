@@ -10,7 +10,12 @@ flowchart LR
     API --> Retrieve["benefit_retriever"]
     API --> Profile["user_profile"]
     API --> Calc["price_calculator"]
-    API --> Gemini["Vertex AI Gemini"]
+    API --> ADK["Google ADK Runner"]
+    ADK --> Gemini["Vertex AI Gemini"]
+    ADK --> Match
+    ADK --> Retrieve
+    ADK --> Profile
+    ADK --> Calc
     Retrieve --> Vector["Firestore Vector Search"]
     Profile --> Firestore["Cloud Firestore"]
     Match --> Firestore
@@ -22,6 +27,8 @@ flowchart LR
 Flutter는 이미지 선택, Android 기기 내 OCR, 민감 문자열 마스킹, 위치/매장 입력, 추천 결과와 출처 표시를 담당합니다. Web 데모는 OCR과 실제 위치 대신 수동 입력/프리셋을 사용할 수 있습니다.
 
 FastAPI는 요청 검증, 도구 오케스트레이션, Firestore 조회, RAG 검색, 결정적 계산과 응답 스키마화를 담당합니다. Gemini는 `coupon_parser`와 사용자 설명에만 참여하며 거리·금액을 계산하거나 calculator 결과를 수정하지 않습니다.
+
+ADK 구현은 `backend/app/agents/coupon_kock_agent/`에 있으며, `root_agent`가 매장 매칭 → 사용자 혜택 조회 → 근거 검색 → 결정적 계산 도구를 호출합니다. FastAPI는 요청마다 임시 ADK 세션을 만들고 실행이 끝나면 삭제합니다.
 
 ## 주요 흐름
 
@@ -36,4 +43,3 @@ FastAPI는 요청 검증, 도구 오케스트레이션, Firestore 조회, RAG �
 
 - MVP: 포그라운드 위치 또는 위치 프리셋, 대표 브랜드 5~10개, 카드 3개 내외와 통신 3사 공식 문서
 - 후속: 백그라운드 geofencing, 카드사 계정/잔여한도 연동, 모든 브랜드 자동 식별, 실제 결제 연동
-

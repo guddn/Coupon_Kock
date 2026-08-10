@@ -11,4 +11,4 @@ gcloud run deploy "$SERVICE_NAME" \
   --source "../../backend" \
   --platform managed \
   --no-allow-unauthenticated \
-  --set-env-vars "GCP_PROJECT_ID=$PROJECT_ID,GCP_REGION=$REGION,APP_ENV=production"
+  --set-env-vars "GCP_PROJECT_ID=$PROJECT_ID,GCP_REGION=$REGION,APP_ENV=production,VERTEX_LOCATION=global,GOOGLE_GENAI_USE_VERTEXAI=TRUE,GOOGLE_CLOUD_PROJECT=$PROJECT_ID,GOOGLE_CLOUD_LOCATION=global,ADK_APP_NAME=coupon_kock"

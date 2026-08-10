@@ -73,3 +73,26 @@ class RecommendationResponse(BaseModel):
     conditions_to_check: list[str] = Field(default_factory=list)
     sources: list[BenefitSource] = Field(default_factory=list)
     message: str
+
+
+class AgentRecommendationRequest(RecommendationRequest):
+    """Structured input converted to a single ADK user turn."""
+
+
+class AgentRecommendationResponse(BaseModel):
+    request_id: str
+    session_id: str
+    agent_name: str
+    model: str
+    answer: str
+    tool_trace: list[str] = Field(default_factory=list)
+    session_persistence: Literal["ephemeral"] = "ephemeral"
+
+
+class AgentInfoResponse(BaseModel):
+    agent_name: str
+    model: str
+    framework: str
+    tools: list[str]
+    run_endpoint: str
+    session_persistence: Literal["ephemeral"] = "ephemeral"

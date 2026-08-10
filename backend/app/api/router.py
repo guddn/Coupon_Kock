@@ -1,11 +1,18 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, HTTPException, status
 
+from app.agents.coupon_kock_agent import root_agent
+from app.agents.coupon_kock_agent.agent import AGENT_TOOL_NAMES
+from app.core.config import settings
 from app.models.schemas import (
+    AgentInfoResponse,
+    AgentRecommendationRequest,
+    AgentRecommendationResponse,
     Coupon,
     CouponParseRequest,
     RecommendationRequest,
     RecommendationResponse,
 )
+from app.services.adk_agent import AgentExecutionError, agent_service
 from app.services.coupon_parser import parse_coupon_placeholder
 from app.services.recommendation import build_demo_recommendation
 
@@ -20,3 +27,27 @@ def parse_coupon(request: CouponParseRequest) -> Coupon:
 @router.post("/recommendations", response_model=RecommendationResponse)
 def create_recommendation(request: RecommendationRequest) -> RecommendationResponse:
     return build_demo_recommendation(request)
+
+
+@router.get("/agent", response_model=AgentInfoResponse)
+def get_agent_info() -> AgentInfoResponse:
+    return AgentInfoResponse(
+        agent_name=root_agent.name,
+        model=settings.gemini_model,
+        framework="Google ADK 2.6.3",
+        tools=AGENT_TOOL_NAMES,
+        run_endpoint="POST /api/agent/recommendations",
+    )
+
+
+@router.post("/agent/recommendations", response_model=AgentRecommendationResponse)
+async def run_recommendation_agent(
+    request: AgentRecommendationRequest,
+) -> AgentRecommendationResponse:
+    try:
+        return await agent_service.run(request)
+    except AgentExecutionError as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=str(error),
+        ) from error
