@@ -1,0 +1,239 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/foundation.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
+
+import '../../domain/models/nearby_store.dart';
+import '../../core/config/app_config.dart';
+import '../../infrastructure/location/location_gateway.dart';
+import '../../infrastructure/recommendations/recommendation_repository.dart';
+
+class NearbyScreen extends StatefulWidget {
+  const NearbyScreen({
+    super.key,
+    required this.repository,
+    required this.locationResult,
+    required this.locationLoading,
+    required this.onLocationAction,
+  });
+
+  final RecommendationRepository repository;
+  final LocationAccessResult? locationResult;
+  final bool locationLoading;
+  final VoidCallback onLocationAction;
+
+  @override
+  State<NearbyScreen> createState() => _NearbyScreenState();
+}
+
+class _NearbyScreenState extends State<NearbyScreen> {
+  Future<NearbyStoresResult>? _stores;
+
+  @override
+  void initState() {
+    super.initState();
+    _loadIfReady();
+  }
+
+  @override
+  void didUpdateWidget(covariant NearbyScreen oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.locationResult?.location != widget.locationResult?.location) {
+      _loadIfReady();
+    }
+  }
+
+  void _loadIfReady() {
+    final location = widget.locationResult?.location;
+    if (location == null) return;
+    _stores = widget.repository.loadNearbyStores(
+      latitude: location.latitude,
+      longitude: location.longitude,
+    );
+  }
+
+  void _reload() => setState(_loadIfReady);
+
+  @override
+  Widget build(BuildContext context) {
+    if (kIsWeb && AppConfig.googleMapsApiKey.isEmpty) {
+      return _LocationRequired(
+        title: 'Google Maps API 키가 필요해요',
+        description: 'GOOGLE_MAPS_API_KEY를 dart-define으로 전달한 뒤 앱을 다시 실행해 주세요.',
+        buttonLabel: '설정 확인',
+        onPressed: () {},
+      );
+    }
+    final location = widget.locationResult?.location;
+    if (widget.locationLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (location == null) {
+      return _LocationRequired(onPressed: widget.onLocationAction);
+    }
+    return FutureBuilder<NearbyStoresResult>(
+      future: _stores,
+      builder: (context, snapshot) {
+        if (snapshot.hasError) {
+          return _LocationRequired(
+            title: '주변 매장을 불러오지 못했어요',
+            description: '${snapshot.error}',
+            buttonLabel: '다시 시도',
+            onPressed: _reload,
+          );
+        }
+        final result = snapshot.data;
+        final stores = result?.stores ?? const <NearbyStore>[];
+        final currentPosition = LatLng(location.latitude, location.longitude);
+        final markers = stores
+            .map(
+              (store) => Marker(
+                markerId: MarkerId(store.id),
+                position: LatLng(store.latitude, store.longitude),
+                infoWindow: InfoWindow(
+                  title: store.name,
+                  snippet:
+                      '${store.category} · ${store.distanceMeters.round()}m',
+                ),
+              ),
+            )
+            .toSet();
+        markers.add(
+          Marker(
+            markerId: const MarkerId('current-location'),
+            position: currentPosition,
+            infoWindow: const InfoWindow(title: '현재 위치'),
+          ),
+        );
+        return Scaffold(
+          appBar: AppBar(
+            title: const Text(
+              '내 주변 매장',
+              style: TextStyle(fontWeight: FontWeight.w800),
+            ),
+            actions: [
+              IconButton(
+                onPressed: _reload,
+                icon: const Icon(Icons.refresh_rounded),
+              ),
+            ],
+          ),
+          body: Column(
+            children: [
+              if (result?.notice != null)
+                MaterialBanner(
+                  content: Text(result!.notice!),
+                  leading: Icon(
+                    result.isFixture
+                        ? Icons.science_outlined
+                        : Icons.info_outline,
+                  ),
+                  actions: [
+                    TextButton(
+                      onPressed: ScaffoldMessenger.of(
+                        context,
+                      ).hideCurrentMaterialBanner,
+                      child: const Text('확인'),
+                    ),
+                  ],
+                ),
+              Expanded(
+                flex: 3,
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(
+                    target: currentPosition,
+                    zoom: 15.5,
+                  ),
+                  myLocationEnabled: true,
+                  myLocationButtonEnabled: true,
+                  zoomControlsEnabled: false,
+                  markers: markers,
+                  circles: {
+                    Circle(
+                      circleId: const CircleId('current-location-radius'),
+                      center: currentPosition,
+                      radius: 25,
+                      fillColor: Colors.blue.withValues(alpha: 0.18),
+                      strokeColor: Colors.blue,
+                      strokeWidth: 2,
+                    ),
+                  },
+                ),
+              ),
+              Expanded(
+                flex: 2,
+                child: snapshot.connectionState != ConnectionState.done
+                    ? const Center(child: CircularProgressIndicator())
+                    : stores.isEmpty
+                    ? const Center(child: Text('반경 1km 안에 표시할 매장이 없습니다.'))
+                    : ListView.separated(
+                        padding: const EdgeInsets.all(12),
+                        itemCount: stores.length,
+                        separatorBuilder: (_, _) => const Divider(height: 1),
+                        itemBuilder: (_, index) {
+                          final store = stores[index];
+                          return ListTile(
+                            leading: const CircleAvatar(
+                              child: Icon(Icons.storefront_outlined),
+                            ),
+                            title: Text(
+                              store.name,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            subtitle: Text(
+                              '${store.category} · ${store.address}',
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            trailing: Text('${store.distanceMeters.round()}m'),
+                          );
+                        },
+                      ),
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+}
+
+class _LocationRequired extends StatelessWidget {
+  const _LocationRequired({
+    this.title = '현재 위치가 필요해요',
+    this.description = '위치 권한을 허용하면 현재 위치와 반경 1km 주변 매장을 지도에 표시합니다.',
+    this.buttonLabel = '위치 권한 확인',
+    required this.onPressed,
+  });
+  final String title;
+  final String description;
+  final String buttonLabel;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Center(
+    child: Padding(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(Icons.location_off_outlined, size: 64),
+          const SizedBox(height: 16),
+          Text(
+            title,
+            style: const TextStyle(fontSize: 22, fontWeight: FontWeight.w800),
+          ),
+          const SizedBox(height: 8),
+          Text(description, textAlign: TextAlign.center),
+          const SizedBox(height: 18),
+          FilledButton.icon(
+            onPressed: onPressed,
+            icon: const Icon(Icons.my_location),
+            label: Text(buttonLabel),
+          ),
+        ],
+      ),
+    ),
+  );
+}

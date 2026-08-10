@@ -5,4 +5,9 @@ class AppConfig {
     'API_BASE_URL',
     defaultValue: 'https://coupon-kock-663890381698.asia-northeast3.run.app',
   );
+
+  static const googleMapsApiKey = String.fromEnvironment(
+    'GOOGLE_MAPS_API_KEY',
+    defaultValue: '',
+  );
 }

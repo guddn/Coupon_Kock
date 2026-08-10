@@ -4,6 +4,8 @@ import '../../domain/models/coupon.dart';
 import '../../domain/models/recommendation.dart';
 import '../../infrastructure/location/location_gateway.dart';
 import '../../infrastructure/recommendations/recommendation_repository.dart';
+import '../coupons/coupon_screen.dart';
+import '../nearby/nearby_screen.dart';
 
 const _accent = Color(0xFFFDB846);
 const _accentDark = Color(0xFFE99E22);
@@ -24,7 +26,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  late final Future<List<Coupon>> _coupons = widget.repository.loadCoupons();
+  late Future<List<Coupon>> _coupons;
   Recommendation? _recommendation;
   LocationAccessResult? _locationResult;
   bool _loading = false;
@@ -34,9 +36,16 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
+    _coupons = widget.repository.loadCoupons();
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _requestLocationAtStartup();
     });
+  }
+
+  Future<void> _createCoupon(CouponDraft draft) async {
+    await widget.repository.createCoupon(draft);
+    if (!mounted) return;
+    setState(() => _coupons = widget.repository.loadCoupons());
   }
 
   Future<void> _requestLocationAtStartup() async {
@@ -117,17 +126,15 @@ class _HomeScreenState extends State<HomeScreen> {
               onRecommend: _requestRecommendation,
               onLocationAction: _handleLocationAction,
               onPreparing: _showPreparing,
+              onOpenCoupons: () => setState(() => _selectedIndex = 2),
             ),
-            _PlaceholderTab(
-              icon: Icons.explore_outlined,
-              title: '주변 혜택',
-              description: '공공데이터 기반 가맹점 검색과 지도 화면이 연결될 자리입니다.',
+            NearbyScreen(
+              repository: widget.repository,
+              locationResult: _locationResult,
+              locationLoading: _locationLoading,
+              onLocationAction: _handleLocationAction,
             ),
-            _PlaceholderTab(
-              icon: Icons.confirmation_number_outlined,
-              title: '내 쿠폰',
-              description: '쿠폰 이미지 등록, OCR 인식, 유효기간 관리를 연결할 자리입니다.',
-            ),
+            CouponScreen(coupons: _coupons, onCreate: _createCoupon),
             _PlaceholderTab(
               icon: Icons.person_outline,
               title: '마이',
@@ -177,6 +184,7 @@ class _HomeTab extends StatelessWidget {
     required this.onRecommend,
     required this.onLocationAction,
     required this.onPreparing,
+    required this.onOpenCoupons,
   });
 
   final Future<List<Coupon>> coupons;
@@ -187,6 +195,7 @@ class _HomeTab extends StatelessWidget {
   final VoidCallback onRecommend;
   final VoidCallback onLocationAction;
   final ValueChanged<String> onPreparing;
+  final VoidCallback onOpenCoupons;
 
   @override
   Widget build(BuildContext context) {
@@ -303,10 +312,18 @@ class _HomeTab extends StatelessWidget {
                         ? '${snapshot.data!.length}장 보유'
                         : '불러오는 중',
                     action: '쿠폰 등록',
-                    onAction: () => onPreparing('쿠폰 이미지 등록'),
+                    onAction: onOpenCoupons,
                   ),
                   const SizedBox(height: 12),
-                  if (!snapshot.hasData)
+                  if (snapshot.hasError)
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Text(
+                        '쿠폰을 불러오지 못했습니다: ${snapshot.error}',
+                        style: const TextStyle(color: Colors.redAccent),
+                      ),
+                    )
+                  else if (!snapshot.hasData)
                     const Center(child: CircularProgressIndicator())
                   else
                     SizedBox(

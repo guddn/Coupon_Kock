@@ -4,10 +4,17 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../domain/models/coupon.dart';
+import '../../domain/models/nearby_store.dart';
 import '../../domain/models/recommendation.dart';
 
 abstract interface class RecommendationRepository {
   Future<List<Coupon>> loadCoupons();
+  Future<Coupon> createCoupon(CouponDraft draft);
+  Future<NearbyStoresResult> loadNearbyStores({
+    required double latitude,
+    required double longitude,
+    int radiusMeters = 1000,
+  });
   Future<Recommendation> recommend({
     required int purchaseAmount,
     required double latitude,
@@ -36,16 +43,108 @@ class ApiRecommendationRepository implements RecommendationRepository {
     return Uri.parse('$normalizedBase/api/recommendations');
   }
 
+  String get _normalizedBase =>
+      baseUrl.toString().replaceFirst(RegExp(r'/$'), '');
+
+  Uri get _couponsEndpoint => Uri.parse('$_normalizedBase/api/coupons');
+
+  Uri _nearbyStoresEndpoint(
+    double latitude,
+    double longitude,
+    int radiusMeters,
+  ) {
+    return Uri.parse('$_normalizedBase/api/stores/nearby').replace(
+      queryParameters: {
+        'latitude': '$latitude',
+        'longitude': '$longitude',
+        'radius_m': '$radiusMeters',
+      },
+    );
+  }
+
   @override
-  Future<List<Coupon>> loadCoupons() async => const [
-    Coupon(
-      id: 'demo-coupon',
-      brand: '스타카페',
-      productName: '모바일 금액권',
-      expiryLabel: '2026.12.31',
-      faceValue: 5000,
-    ),
-  ];
+  Future<List<Coupon>> loadCoupons() async {
+    final response = await _send(
+      () => _client.get(
+        _couponsEndpoint.replace(queryParameters: {'user_id': 'demo-user'}),
+      ),
+    );
+    _requireStatus(response, 200, '쿠폰을 불러오지 못했습니다.');
+    try {
+      final payload = jsonDecode(response.body) as List<dynamic>;
+      return payload
+          .map((item) => Coupon.fromJson(item as Map<String, dynamic>))
+          .toList();
+    } on Object {
+      throw const RecommendationException('쿠폰 응답 형식이 예상과 다릅니다.');
+    }
+  }
+
+  @override
+  Future<Coupon> createCoupon(CouponDraft draft) async {
+    final response = await _send(
+      () => _client.post(
+        _couponsEndpoint,
+        headers: const {'Content-Type': 'application/json'},
+        body: jsonEncode({
+          'user_id': 'demo-user',
+          'brand': draft.brand,
+          'product_name': draft.productName,
+          'coupon_type': 'fixed',
+          'face_value': draft.faceValue,
+          'expiry_date': _dateOnly(draft.expiryDate),
+        }),
+      ),
+    );
+    _requireStatus(response, 201, '쿠폰 등록에 실패했습니다.');
+    try {
+      return Coupon.fromJson(jsonDecode(response.body) as Map<String, dynamic>);
+    } on Object {
+      throw const RecommendationException('쿠폰 응답 형식이 예상과 다릅니다.');
+    }
+  }
+
+  @override
+  Future<NearbyStoresResult> loadNearbyStores({
+    required double latitude,
+    required double longitude,
+    int radiusMeters = 1000,
+  }) async {
+    final response = await _send(
+      () =>
+          _client.get(_nearbyStoresEndpoint(latitude, longitude, radiusMeters)),
+    );
+    _requireStatus(response, 200, '주변 매장을 불러오지 못했습니다.');
+    try {
+      final payload = jsonDecode(response.body) as Map<String, dynamic>;
+      final stores = (payload['stores'] as List<dynamic>)
+          .map((item) => NearbyStore.fromJson(item as Map<String, dynamic>))
+          .toList();
+      return NearbyStoresResult(
+        stores: stores,
+        isFixture: payload['data_source'] == 'fixture',
+        notice: payload['notice'] as String?,
+      );
+    } on Object {
+      throw const RecommendationException('매장 응답 형식이 예상과 다릅니다.');
+    }
+  }
+
+  Future<http.Response> _send(Future<http.Response> Function() request) async {
+    try {
+      return await request().timeout(const Duration(seconds: 10));
+    } on TimeoutException {
+      throw const RecommendationException('서버 응답 시간이 초과되었습니다.');
+    } on http.ClientException {
+      throw const RecommendationException('백엔드에 연결할 수 없습니다.');
+    }
+  }
+
+  void _requireStatus(http.Response response, int expected, String message) {
+    if (response.statusCode != expected) {
+      throw RecommendationException('$message (HTTP ${response.statusCode})');
+    }
+  }
 
   @override
   Future<Recommendation> recommend({
@@ -128,6 +227,36 @@ class DemoRecommendationRepository implements RecommendationRepository {
   ];
 
   @override
+  Future<Coupon> createCoupon(CouponDraft draft) async => Coupon(
+    id: 'demo-created-coupon',
+    brand: draft.brand,
+    productName: draft.productName,
+    expiryLabel: _dateOnly(draft.expiryDate),
+    faceValue: draft.faceValue,
+  );
+
+  @override
+  Future<NearbyStoresResult> loadNearbyStores({
+    required double latitude,
+    required double longitude,
+    int radiusMeters = 1000,
+  }) async => NearbyStoresResult(
+    isFixture: true,
+    notice: '테스트용 매장입니다.',
+    stores: [
+      NearbyStore(
+        id: 'demo-store',
+        name: '스타카페 아주대점',
+        category: '카페',
+        address: '경기도 수원시 영통구',
+        latitude: latitude + 0.0003,
+        longitude: longitude + 0.0002,
+        distanceMeters: 42,
+      ),
+    ],
+  );
+
+  @override
   Future<Recommendation> recommend({
     required int purchaseAmount,
     required double latitude,
@@ -152,4 +281,9 @@ class DemoRecommendationRepository implements RecommendationRepository {
       sourceTitle: '개발용 공식 혜택 fixture - 배포 전 교체',
     );
   }
+}
+
+String _dateOnly(DateTime value) {
+  String twoDigits(int number) => number.toString().padLeft(2, '0');
+  return '${value.year}-${twoDigits(value.month)}-${twoDigits(value.day)}';
 }
