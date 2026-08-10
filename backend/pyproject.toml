@@ -1,0 +1,35 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "coupon-knock-api"
+version = "0.1.0"
+description = "Location-aware coupon and benefit recommendation API"
+requires-python = ">=3.11"
+dependencies = [
+  "fastapi",
+  "pydantic",
+  "uvicorn[standard]",
+]
+
+[project.optional-dependencies]
+gcp = [
+  "google-cloud-aiplatform",
+  "google-cloud-firestore",
+  "google-cloud-storage",
+]
+dev = [
+  "httpx",
+  "pytest",
+  "ruff",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+

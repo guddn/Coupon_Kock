@@ -1,0 +1,12 @@
+sources:
+  - source_id: telecom-example-001
+    provider: example-telecom
+    product_name: example-membership
+    title: 공식 멤버십 혜택 페이지
+    source_url: https://example.com/official-benefit
+    valid_from: '2026-01-01'
+    valid_to: '2026-12-31'
+    retrieved_at: null
+    checksum_sha256: null
+    merchant_keywords: [카페, 편의점]
+
