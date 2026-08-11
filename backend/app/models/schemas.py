@@ -99,6 +99,7 @@ class RecommendationRequest(BaseModel):
     longitude: float = Field(ge=-180, le=180)
     purchase_amount: int = Field(default=10_000, ge=0, le=10_000_000)
     store_id: str | None = Field(default=None, max_length=256)
+    card_product: str | None = Field(default=None, max_length=100)
 
 
 class RecommendationResponse(BaseModel):

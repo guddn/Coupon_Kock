@@ -1,6 +1,8 @@
 from datetime import UTC, datetime
 from typing import Any
 
+from app.core.config import settings
+from app.services.benefit_rag import benefit_rag_service
 from app.services.brand_matcher import brand_matches_store
 from app.services.calculator import DiscountRule, calculate_option, rank_options
 from app.services.coupon_registry import coupon_registry
@@ -50,6 +52,7 @@ def match_nearby_store(
             "store_id": selected.store_id,
             "name": selected.name,
             "canonical_brand": selected.name,
+            "category": selected.category,
             "distance_m": selected.distance_m,
         },
         "data_source": nearby.data_source,
@@ -57,12 +60,17 @@ def match_nearby_store(
     }
 
 
-def load_user_benefit_context(user_id: str, canonical_brand: str) -> dict[str, Any]:
+def load_user_benefit_context(
+    user_id: str,
+    canonical_brand: str,
+    card_product: str = "",
+) -> dict[str, Any]:
     """Loads active coupons and non-sensitive benefit profile fields for a user.
 
     Args:
         user_id: Application user identifier. Never a card number or coupon PIN.
         canonical_brand: Canonical brand returned by match_nearby_store.
+        card_product: Card product selected in the request, never a card number.
 
     Returns:
         Active matching coupons from the configured registry and an empty benefit profile.
@@ -87,7 +95,7 @@ def load_user_benefit_context(user_id: str, canonical_brand: str) -> dict[str, A
         "status": "success",
         "coupons": coupons,
         "profile": {
-            "card_product": None,
+            "card_product": card_product or settings.demo_card_product or None,
             "telecom_provider": None,
             "eligibility_confirmed": False,
         },
@@ -100,28 +108,40 @@ def retrieve_official_benefit_rules(
     canonical_brand: str,
     card_product: str = "",
     telecom_provider: str = "",
+    merchant_category: str = "",
 ) -> dict[str, Any]:
-    """Returns no card rule until the official benefit RAG store is connected.
+    """Searches embedded official card documents for evidence-backed rules.
 
     Args:
         canonical_brand: Canonical merchant brand.
         card_product: User-selected card product name, never a card number.
         telecom_provider: User-selected telecom provider.
+        merchant_category: Public-data merchant category when available.
 
     Returns:
-        An explicit no-evidence response so unverified discounts are never calculated.
+        Matching rules, official sources, and vector retrieval metadata.
     """
-    return {
-        "status": "no_evidence",
-        "rules": [],
-        "sources": [],
-        "message": "공식 카드·통신사 혜택 RAG가 아직 연결되지 않았습니다.",
-        "query": {
-            "canonical_brand": canonical_brand,
-            "card_product_configured": bool(card_product),
-            "telecom_provider_configured": bool(telecom_provider),
-        },
+    try:
+        result = benefit_rag_service.search(
+            canonical_brand=canonical_brand,
+            card_product=card_product,
+            merchant_category=merchant_category,
+        )
+    except Exception as error:  # noqa: BLE001 - tool must return a safe structured failure
+        return {
+            "status": "retrieval_error",
+            "rules": [],
+            "sources": [],
+            "message": "공식 혜택 임베딩 검색에 실패했습니다.",
+            "error_type": type(error).__name__,
+        }
+    result["query"] = {
+        "canonical_brand": canonical_brand,
+        "merchant_category": merchant_category,
+        "card_product_configured": bool(card_product),
+        "telecom_provider_configured": bool(telecom_provider),
     }
+    return result
 
 
 def calculate_discount_options(

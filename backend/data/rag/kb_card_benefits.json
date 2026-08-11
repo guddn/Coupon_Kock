@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "curated_at": "2026-08-11",
+  "documents": [
+    {
+      "source_id": "kbcard-my-wesh-09923",
+      "issuer": "KB국민카드",
+      "card_product": "KB국민 My WE:SH 카드",
+      "aliases": ["My WE:SH", "마이위시", "My WE:SH 카드"],
+      "title": "KB국민 My WE:SH 카드 공식 혜택",
+      "url": "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09923&mainCC=a",
+      "source_markers": ["음식점, 편의점 10% 할인", "전월 이용실적 40만원 이상 시 제공"],
+      "document_text": "KB국민 My WE:SH 카드. 전월 이용실적 40만원 이상이면 음식점과 GS25, CU 편의점에서 10% 청구할인한다. 음식점·편의점 할인은 건당 2,500원, 월 5,000원 한도다. 선택 서비스 중 먹는데 진심은 배달과 커피 5%, 월 5,000원 한도다. 선택 서비스와 실적, 제외 가맹점은 결제 전에 확인해야 한다.",
+      "rules": [
+        {
+          "rule_id": "my-wesh-food-convenience-10",
+          "name": "음식점·편의점 10% 할인",
+          "merchant_patterns": ["GS25", "CU"],
+          "category_patterns": ["음식점", "한식", "일식", "중식", "양식", "뷔페", "패밀리레스토랑", "편의점"],
+          "discount_percent": 10,
+          "max_discount": 2500,
+          "monthly_discount_limit": 5000,
+          "stackable_with_coupon": false,
+          "eligibility": "needs_confirmation",
+          "conditions": ["전월 이용실적 40만원 이상", "백화점·대형마트 등 일부 입점 매장 제외", "건당 2,500원 및 월 5,000원 한도"]
+        },
+        {
+          "rule_id": "my-wesh-selected-coffee-5",
+          "name": "먹는데 진심 커피 5% 할인",
+          "merchant_patterns": ["스타벅스", "커피빈", "투썸플레이스", "이디야", "메가커피", "컴포즈커피"],
+          "category_patterns": ["커피", "카페"],
+          "discount_percent": 5,
+          "max_discount": 5000,
+          "monthly_discount_limit": 5000,
+          "stackable_with_coupon": false,
+          "eligibility": "needs_confirmation",
+          "conditions": ["전월 이용실적 40만원 이상", "선택 서비스에서 먹는데 진심 선택 필요", "월 5,000원 한도"]
+        }
+      ]
+    },
+    {
+      "source_id": "kbcard-talktalk-with-09272",
+      "issuer": "KB국민카드",
+      "card_product": "KB국민 톡톡 with카드",
+      "aliases": ["톡톡 with", "톡톡with", "톡톡 with카드", "톡톡with카드"],
+      "title": "KB국민 톡톡 with카드 공식 혜택",
+      "url": "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09272&mainCC=a",
+      "source_markers": ["스타벅스(사이렌오더 포함)", "50% 청구할인", "전월 이용실적 40만원 이상"],
+      "document_text": "KB국민 톡톡 with카드. 전월 이용실적 40만원 이상이면 스타벅스와 사이렌오더 이용금액을 50% 청구할인하며 월 할인한도는 10,000원이다. 온라인 간편결제 10%, 구독 20%, 배달과 대중교통 5% 혜택도 있다. 월 잔여 한도와 실적 충족 여부는 결제 전에 확인해야 한다.",
+      "rules": [
+        {
+          "rule_id": "talktalk-with-starbucks-50",
+          "name": "스타벅스 50% 청구할인",
+          "merchant_patterns": ["스타벅스", "STARBUCKS"],
+          "category_patterns": [],
+          "discount_percent": 50,
+          "max_discount": 10000,
+          "monthly_discount_limit": 10000,
+          "stackable_with_coupon": false,
+          "eligibility": "needs_confirmation",
+          "conditions": ["전월 이용실적 40만원 이상", "스타벅스 및 사이렌오더 대상", "월 10,000원 할인한도와 잔여 한도 확인 필요"]
+        }
+      ]
+    },
+    {
+      "source_id": "kbcard-goodday-ollim-09063",
+      "issuer": "KB국민카드",
+      "card_product": "KB국민 굿데이올림카드",
+      "aliases": ["굿데이올림", "굿데이올림카드", "Good Day 올림"],
+      "title": "KB국민 굿데이올림카드 공식 혜택",
+      "url": "https://card.kbcard.com/CRD/DVIEW/HCAMCXPRICAC0076?cooperationcode=09063&mainCC=a",
+      "source_markers": ["굿데이올림카드 서비스 요약", "음식/커피/편의점/약국", "10%"],
+      "document_text": "KB국민 굿데이올림카드. 전월 이용실적 60만원 이상 구간부터 음식, 커피, 편의점, 약국 이용금액을 10% 할인하며 월 할인 제공 이용금액은 50,000원이다. 따라서 해당 구간의 월 할인금액은 최대 5,000원이다. 주유, 대형마트, 통신, 대중교통 등에도 별도 혜택이 있으며 실적 구간과 업종 분류를 확인해야 한다.",
+      "rules": [
+        {
+          "rule_id": "goodday-food-coffee-convenience-10",
+          "name": "음식·커피·편의점·약국 10% 할인",
+          "merchant_patterns": ["스타벅스", "커피빈", "투썸플레이스", "이디야", "GS25", "CU"],
+          "category_patterns": ["음식", "음식점", "커피", "카페", "편의점", "약국"],
+          "discount_percent": 10,
+          "max_discount": 5000,
+          "monthly_discount_limit": 5000,
+          "stackable_with_coupon": false,
+          "eligibility": "needs_confirmation",
+          "conditions": ["전월 이용실적 60만원 이상 구간부터 제공", "월 할인 제공 이용금액 50,000원", "월 최대 할인금액 5,000원 및 잔여 한도 확인 필요"]
+        }
+      ]
+    }
+  ]
+}

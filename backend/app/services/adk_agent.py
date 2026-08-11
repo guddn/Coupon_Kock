@@ -40,6 +40,7 @@ class CouponKockAdkService:
                 "longitude": request.longitude,
                 "purchase_amount": request.purchase_amount,
                 "store_id": request.store_id or "",
+                "card_product": request.card_product or settings.demo_card_product,
             },
             ensure_ascii=False,
         )

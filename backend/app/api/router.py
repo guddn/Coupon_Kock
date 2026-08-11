@@ -18,6 +18,7 @@ from app.models.schemas import (
     RegisteredCoupon,
 )
 from app.services.adk_agent import AgentExecutionError, agent_service
+from app.services.benefit_rag import benefit_rag_service
 from app.services.brand_matcher import brand_matches_store
 from app.services.coupon_parser import parse_coupon_placeholder
 from app.services.coupon_registry import coupon_registry
@@ -25,6 +26,40 @@ from app.services.public_store_client import public_store_client
 from app.services.recommendation import RecommendationUnavailableError, build_recommendation
 
 router = APIRouter(prefix="/api")
+
+
+@router.get("/benefits/status")
+def get_benefit_rag_status() -> dict:
+    try:
+        return benefit_rag_service.status()
+    except Exception as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"RAG 저장소를 확인할 수 없습니다: {type(error).__name__}",
+        ) from error
+
+
+@router.get("/benefits/search")
+def search_official_benefits(
+    canonical_brand: str,
+    card_product: str,
+    merchant_category: str = "",
+    limit: int = 3,
+) -> dict:
+    if not 1 <= limit <= 5:
+        raise HTTPException(status_code=422, detail="limit must be between 1 and 5")
+    try:
+        return benefit_rag_service.search(
+            canonical_brand=canonical_brand,
+            card_product=card_product,
+            merchant_category=merchant_category,
+            limit=limit,
+        )
+    except Exception as error:
+        raise HTTPException(
+            status_code=status.HTTP_503_SERVICE_UNAVAILABLE,
+            detail=f"RAG 검색에 실패했습니다: {type(error).__name__}",
+        ) from error
 
 
 @router.post("/coupons/parse", response_model=Coupon)

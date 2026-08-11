@@ -72,7 +72,7 @@ Google Cloud Console에서 Android용 `Maps SDK for Android`, Web용 `Maps JavaS
 
 - Backend: Cloud Run (`asia-northeast3` 기본)
 - Web demo: Firebase Hosting
-- 데이터: Firestore + Firestore Vector Search
+- 데이터: Firestore + 공식 카드 문서 임베딩 검색(3문서 MVP는 애플리케이션 코사인 유사도)
 - 원본 스냅샷/RAG 원문: Cloud Storage
 - 비밀값: Secret Manager
 

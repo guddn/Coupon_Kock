@@ -196,4 +196,4 @@ def test_recommendation_uses_registered_matching_coupon() -> None:
     assert payload["store"]["store_id"] == "fixture-cafe"
     assert payload["recommended_option"]["final_price"] == 6_000
     assert payload["recommended_option"]["components"][0]["kind"] == "coupon"
-    assert payload["sources"] == []
+    assert payload["sources"][0]["source_id"] == "kbcard-talktalk-with-09272"

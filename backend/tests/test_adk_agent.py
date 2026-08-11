@@ -67,10 +67,23 @@ def test_agent_tools_produce_deterministic_recommendation(monkeypatch) -> None:
         coupon_face_value=user_context["coupons"][0]["face_value"],
     )
 
-    assert rules["status"] == "no_evidence"
+    assert rules["status"] == "card_product_required"
     assert result["status"] == "success"
     assert result["recommended_option"]["option_id"] == "coupon-only"
     assert result["recommended_option"]["final_price"] == 5_000
+
+
+def test_rag_tool_retrieves_official_starbucks_rule() -> None:
+    result = retrieve_official_benefit_rules(
+        canonical_brand="스타벅스 아주대점",
+        card_product="톡톡 with카드",
+        merchant_category="커피-전문점",
+    )
+
+    assert result["status"] == "success"
+    assert result["rules"][0]["discount_percent"] == 50
+    assert result["rules"][0]["source_id"] == "kbcard-talktalk-with-09272"
+    assert result["retrieval"]["method"] == "cosine_similarity"
 
 
 def test_store_tool_does_not_echo_exact_location(monkeypatch) -> None:
