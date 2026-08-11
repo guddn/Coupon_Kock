@@ -1,0 +1,146 @@
+{"kind":"deck","id":"pr/7p4a60","name":"Deck"}
+{"kind":"layout","layoutId":"275154c4-08cd-45bf-adda-7329f957a70c","name":"Master","type":"master"}
+{"kind":"layout","layoutId":"4c013d63-0568-4d42-877c-ef6b5ea9931b","name":"Title Slide","type":"title"}
+{"kind":"slide","id":"sl/advsdx","slide":1,"title":"쿠폰콕","textShapes":3}
+{"kind":"textbox","id":"sh/8rmt0f6d","slide":1,"name":"Title-3-1","text":"쿠폰콕\n위치 기반 쿠폰 혜택 에이전트","textPreview":"쿠폰콕 | 위치 기반 쿠폰 혜택 에이전트","textChars":20,"textLines":2,"bbox":[41.33,270.86,992,380.5]}
+{"kind":"textbox","id":"sh/7qdsra5s","slide":1,"name":"Subtitle-4-2","text":"PORTFOLIO · 2026","textPreview":"PORTFOLIO · 2026","textChars":16,"textLines":1,"bbox":[41.33,41.18,646.49,68.15]}
+{"kind":"textbox","id":"sh/6pkby5o7","slide":1,"name":"Subtitle-4-3","text":"KIM HYEONGWOO","textPreview":"KIM HYEONGWOO","textChars":13,"textLines":1,"bbox":[828,41.18,410.67,68.15]}
+{"kind":"shape","id":"sh/lobap07m","slide":1,"bbox":[41,236,132,10]}
+{"kind":"notes","id":"nt/advsdx","slide":1,"text":"개인 프로젝트 · Flutter / GCP / ADK\n\n[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx"}
+{"kind":"slide","id":"sl/fbkzdt","slide":2,"title":"02","textShapes":3}
+{"kind":"textbox","id":"sh/1cv65w3u","slide":2,"name":"Google-Shape-532-p58-2","text":"02","textPreview":"02","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/e9kna14j","slide":2,"name":"Google-Shape-533-p58-3","text":"결제 직전, 혜택은 흩어져 있다","textPreview":"결제 직전, 혜택은 흩어져 있다","textChars":17,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"shape","id":"sh/zado36lo","slide":2,"name":"Picture-3-4-backing","bbox":[658.17,41.62,581.6,588.14]}
+{"kind":"textbox","id":"sh/d8b61w3y","slide":2,"name":"Google-Shape-534-p58-5","text":"사용자의 실제 문제\n쿠폰은 이미지·앱·문자에 흩어져 있고, 매장·유효기간·결제금액과 연결되지 않는다.\n\n결국 사용자는 혜택을 보유하고도 적용 시점을 놓친다.","textPreview":"사용자의 실제 문제 | 쿠폰은 이미지·앱·문자에 흩어져 있고, 매장·유효기간·결제금액과 연결되지 않는다. |  | 결국 사용자는 혜택을 보유하고도 적용 시점을 놓친다.","textChars":87,"textLines":4,"bbox":[41.33,213.33,581.33,416]}
+{"kind":"shape","id":"sh/r6tozmls","slide":2,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"image","id":"im/xoni5s7a","slide":2,"name":"Picture-3-4","geometry":"roundRect","alt":"hero placeholder for Picture 3","prompt":"Clean editorial light-blue conceptual image with subtle architectural geometry, ample white space, and no embedded text","isPlaceholder":true,"bbox":[658.17,41.62,581.6,588.14]}
+{"kind":"image","id":"im/bml032pk","slide":2,"name":"","alt":"바코드가 마스킹된 모바일 쿠폰 예시","bbox":[774,77,350,515]}
+{"kind":"notes","id":"nt/fbkzdt","slide":2,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/coupons_img/gifticon.png\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx"}
+{"kind":"slide","id":"sl/ph27bq","slide":3,"title":"03","textShapes":8}
+{"kind":"textbox","id":"sh/4jyt8rm5","slide":3,"name":"Slide-Number-Placeholder-3-2","text":"03","textPreview":"03","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/jipszm5k","slide":3,"name":"Title-10-3","text":"등록부터 추천까지 하나의 사용자 흐름으로 묶었다","textPreview":"등록부터 추천까지 하나의 사용자 흐름으로 묶었다","textChars":26,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"shape","id":"sh/ihgb6h4f","slide":3,"name":"Google-Shape-2259-p159-4","bbox":[35.46,354.2,1285.61,0.03]}
+{"kind":"shape","id":"sh/toru5wn2","slide":3,"name":"Google-Shape-2260-p159-5","bbox":[35.46,348.58,11.24,11.24]}
+{"kind":"shape","id":"sh/snitcrmh","slide":3,"name":"Google-Shape-2261-p159-6","bbox":[446.38,348.58,11.24,11.24]}
+{"kind":"shape","id":"sh/rm9c3m5w","slide":3,"name":"Google-Shape-2262-p159-7","bbox":[858.38,348.58,11.24,11.24]}
+{"kind":"textbox","id":"sh/6l0bah4b","slide":3,"name":"Content-Placeholder-15-8","text":"STEP 01","textPreview":"STEP 01","textChars":7,"textLines":1,"bbox":[41.33,298.51,169.33,27.55]}
+{"kind":"textbox","id":"sh/9snatcni","slide":3,"name":"Content-Placeholder-15-9","text":"STEP 02","textPreview":"STEP 02","textChars":7,"textLines":1,"bbox":[450.83,298.51,169.33,27.55]}
+{"kind":"textbox","id":"sh/8ret07mx","slide":3,"name":"Content-Placeholder-15-10","text":"STEP 03","textPreview":"STEP 03","textChars":7,"textLines":1,"bbox":[863.33,298.51,169.33,27.55]}
+{"kind":"textbox","id":"sh/id4rml8r","slide":3,"name":"Text-Placeholder-16-11","text":"주변 탐색\nGPS와 공공 상가데이터를 결합해 사용 가능한 매장만 선별","textPreview":"주변 탐색 | GPS와 공공 상가데이터를 결합해 사용 가능한 매장만 선별","textChars":38,"textLines":2,"bbox":[453.24,401.33,331.35,166.54]}
+{"kind":"textbox","id":"sh/3edsv69c","slide":3,"name":"Text-Placeholder-16-12","text":"쿠폰 등록\n브랜드·상품·금액·유효기간을 저장하고 사용자별로 관리","textPreview":"쿠폰 등록 | 브랜드·상품·금액·유효기간을 저장하고 사용자별로 관리","textChars":35,"textLines":2,"bbox":[41.98,401.33,331.35,166.54]}
+{"kind":"textbox","id":"sh/4fm9obqx","slide":3,"name":"Text-Placeholder-16-13","text":"혜택 추천\n결정적 계산 결과를 ADK와 Gemini가 근거 중심으로 설명","textPreview":"혜택 추천 | 결정적 계산 결과를 ADK와 Gemini가 근거 중심으로 설명","textChars":40,"textLines":2,"bbox":[858.57,401.33,331.35,166.54]}
+{"kind":"shape","id":"sh/5gvaxgri","slide":3,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/ph27bq","slide":3,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/architecture.md\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/lib/features/coupons/coupon_screen.dart\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/lib/features/nearby/nearby_screen.dart"}
+{"kind":"slide","id":"sl/5n70zb","slide":4,"title":"04","textShapes":6}
+{"kind":"textbox","id":"sh/ylkza5o3","slide":4,"name":"Slide-Number-Placeholder-1-2","text":"04","textPreview":"04","textChars":2,"textLines":1,"bbox":[1184.17,659.17,54.5,25.33]}
+{"kind":"textbox","id":"sh/lobi5kne","slide":4,"name":"Title-2-3","text":"핵심 기능은 사용자 가치와 직접 연결된다","textPreview":"핵심 기능은 사용자 가치와 직접 연결된다","textChars":22,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/kn21cf69","slide":4,"name":"Content-Placeholder-9-4","text":"쿠폰 등록·관리\nFirestore 영속화와 사용자별 조회로 재사용 가능한 데이터화","textPreview":"쿠폰 등록·관리 | Firestore 영속화와 사용자별 조회로 재사용 가능한 데이터화","textChars":45,"textLines":2,"bbox":[41.33,213.33,581.33,172.5]}
+{"kind":"textbox","id":"sh/7qt07a5k","slide":4,"name":"Content-Placeholder-10-5","text":"위치 기반 Top 5\n현재 위치에서 실제 거리를 다시 계산해 가까운 순으로 정렬","textPreview":"위치 기반 Top 5 | 현재 위치에서 실제 거리를 다시 계산해 가까운 순으로 정렬","textChars":44,"textLines":2,"bbox":[656.86,213.33,581.33,172.5]}
+{"kind":"textbox","id":"sh/6pkje5oz","slide":4,"name":"Content-Placeholder-9-6","text":"쿠폰–매장 필터\n보유 쿠폰 브랜드와 일치하는 매장만 지도와 목록에 표시","textPreview":"쿠폰–매장 필터 | 보유 쿠폰 브랜드와 일치하는 매장만 지도와 목록에 표시","textChars":39,"textLines":2,"bbox":[41.33,421.73,581.33,172.51]}
+{"kind":"textbox","id":"sh/tsvi9knq","slide":4,"name":"Content-Placeholder-10-7","text":"혜택 계산·설명\nPython calculator가 금액을 결정하고 Gemini는 근거만 설명","textPreview":"혜택 계산·설명 | Python calculator가 금액을 결정하고 Gemini는 근거만 설명","textChars":51,"textLines":2,"bbox":[656.86,421.73,581.33,172.51]}
+{"kind":"shape","id":"sh/8rm1gf65","slide":4,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/5n70zb","slide":4,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/services/coupon_registry.py\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/services/recommendation.py\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/lib/features/nearby/nearby_screen.dart"}
+{"kind":"slide","id":"sl/mhx7cf","slide":5,"title":"05","textShapes":3}
+{"kind":"textbox","id":"sh/t8zmlkzm","slide":5,"name":"Google-Shape-532-p58-2","text":"05","textPreview":"05","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/6583qp0b","slide":5,"name":"Google-Shape-533-p58-3","text":"지도 QA로 거리·정렬을 고쳤다","textPreview":"지도 QA로 거리·정렬을 고쳤다","textChars":17,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"shape","id":"sh/76h4ja1g","slide":5,"name":"Picture-3-4-backing","bbox":[658.17,41.62,581.6,588.14]}
+{"kind":"textbox","id":"sh/hwjmp4zy","slide":5,"name":"Google-Shape-534-p58-5","text":"발견 → 수정\n초기 화면에서 지도 잘림과 91m 중복 표시를 확인했다.\n\n탭 활성 시 지도 생성, 전체 영역 배치, 최신 GPS 기준 Haversine 재계산, 오름차순 정렬을 적용했다.","textPreview":"발견 → 수정 | 초기 화면에서 지도 잘림과 91m 중복 표시를 확인했다. |  | 탭 활성 시 지도 생성, 전체 영역 배치, 최신 GPS 기준 Haversine 재계산, 오름차순 정렬을 적용했다.","textChars":104,"textLines":4,"bbox":[41.33,213.33,581.33,416]}
+{"kind":"shape","id":"sh/fah4nuhs","slide":5,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"image","id":"im/90fe5c3a","slide":5,"name":"Picture-3-4","geometry":"roundRect","alt":"hero placeholder for Picture 3","prompt":"Clean editorial light-blue conceptual image with subtle architectural geometry, ample white space, and no embedded text","isPlaceholder":true,"bbox":[658.17,41.62,581.6,588.14]}
+{"kind":"image","id":"im/nydw3ml4","slide":5,"name":"","alt":"지도 잘림과 동일 거리 표시를 보여주는 초기 QA 화면","bbox":[768,58,388,570]}
+{"kind":"notes","id":"nt/mhx7cf","slide":5,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/.codex-ppt-work/assets/map-qa-before.png\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/lib/features/nearby/nearby_screen.dart\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx"}
+{"kind":"slide","id":"sl/x7atd1","slide":6,"title":"06","textShapes":3}
+{"kind":"shape","id":"sh/ru9cz6ds","slide":6,"name":"Google-Shape-534-p58-1","bbox":[41.33,193.05,580.91,436.28]}
+{"kind":"textbox","id":"sh/sv2tsbux","slide":6,"name":"Google-Shape-532-p58-3","text":"06","textPreview":"06","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/dwbu1gvi","slide":6,"name":"Google-Shape-533-p58-4","text":"Flutter부터 Gemini까지 하나의 GCP 경계로 연결했다","textPreview":"Flutter부터 Gemini까지 하나의 GCP 경계로 연결했다","textChars":35,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"shape","id":"sh/exkbulc3","slide":6,"name":"Google-Shape-534-p58-5","bbox":[657.75,230.2,581.33,399.13]}
+{"kind":"shape","id":"sh/fytc3qdo","slide":6,"name":"diagram-clean-field","bbox":[41,148,1198,493]}
+{"kind":"textbox","id":"sh/1kbu5gvu","slide":6,"name":"diagram-caption","text":"Frontend · API · Agent · Data · Infra의 책임을 분리하고 Secret은 런타임 계정에만 주입","textPreview":"Frontend · API · Agent · Data · Infra의 책임을 분리하고 Secret은 런타임 계정에만 주입","textChars":67,"textLines":1,"bbox":[62,596,1050,38]}
+{"kind":"shape","id":"sh/2lkvylcf","slide":6,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"image","id":"im/p8vat8vm","slide":6,"name":"","alt":"쿠폰콕 시스템 아키텍처","bbox":[62,166,1156,420]}
+{"kind":"notes","id":"nt/x7atd1","slide":6,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/architecture.md\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx"}
+{"kind":"slide","id":"sl/rnxqlm","slide":7,"title":"07","textShapes":3}
+{"kind":"shape","id":"sh/ilwfqp4j","slide":7,"name":"Google-Shape-534-p58-1","bbox":[41.33,193.05,580.91,436.28]}
+{"kind":"textbox","id":"sh/5ony143a","slide":7,"name":"Google-Shape-532-p58-3","text":"07","textPreview":"07","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/knexszmp","slide":7,"name":"Google-Shape-533-p58-4","text":"에이전트는 매장 후보를 줄인 뒤 가격을 계산한다","textPreview":"에이전트는 매장 후보를 줄인 뒤 가격을 계산한다","textChars":26,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"shape","id":"sh/7a5g3el0","slide":7,"name":"Google-Shape-534-p58-5","bbox":[657.75,230.2,581.33,399.13]}
+{"kind":"shape","id":"sh/69wfu94v","slide":7,"name":"diagram-clean-field","bbox":[41,148,1198,493]}
+{"kind":"textbox","id":"sh/sbexwjml","slide":7,"name":"diagram-caption","text":"GPS → 공공데이터 → 유효 쿠폰 → 브랜드 매칭 → 거리 Top 5 → 가격 계산 → Gemini 근거 설명","textPreview":"GPS → 공공데이터 → 유효 쿠폰 → 브랜드 매칭 → 거리 Top 5 → 가격 계산 → Gemini 근거 설명","textChars":62,"textLines":1,"bbox":[62,596,1050,38]}
+{"kind":"shape","id":"sh/fepg7elc","slide":7,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"image","id":"im/4na5wbep","slide":7,"name":"","alt":"쿠폰콕 에이전트 처리 파이프라인","bbox":[62,166,1156,420]}
+{"kind":"notes","id":"nt/rnxqlm","slide":7,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/agents/coupon_kock_agent/agent.py\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/agents/coupon_kock_agent/tools.py\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/architecture.md"}
+{"kind":"slide","id":"sl/12w3ng","slide":8,"title":"08","textShapes":6}
+{"kind":"textbox","id":"sh/8z2twf2x","slide":8,"name":"Slide-Number-Placeholder-1-2","text":"08","textPreview":"08","textChars":2,"textLines":1,"bbox":[1184.17,659.17,54.5,25.33]}
+{"kind":"textbox","id":"sh/7y9c3als","slide":8,"name":"Title-2-3","text":"ADK는 판단 과정과 계산 책임을 분리한다","textPreview":"ADK는 판단 과정과 계산 책임을 분리한다","textChars":23,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/md0bupk7","slide":8,"name":"Content-Placeholder-9-4","text":"store_match\n위치와 매장 후보를 검증해 잘못된 매장 진입을 차단","textPreview":"store_match | 위치와 매장 후보를 검증해 잘못된 매장 진입을 차단","textChars":40,"textLines":2,"bbox":[41.33,213.33,581.33,172.5]}
+{"kind":"textbox","id":"sh/lcru1k3m","slide":8,"name":"Content-Placeholder-10-5","text":"benefit context\n사용자 쿠폰과 후속 공식 혜택 RAG의 근거 상태를 로드","textPreview":"benefit context | 사용자 쿠폰과 후속 공식 혜택 RAG의 근거 상태를 로드","textChars":47,"textLines":2,"bbox":[656.86,213.33,581.33,172.5]}
+{"kind":"textbox","id":"sh/kbitsf21","slide":8,"name":"Content-Placeholder-9-6","text":"rule validator\n유효기간·브랜드·조건을 검사하고 근거 없는 규칙은 제외","textPreview":"rule validator | 유효기간·브랜드·조건을 검사하고 근거 없는 규칙은 제외","textChars":45,"textLines":2,"bbox":[41.33,421.73,581.33,172.51]}
+{"kind":"textbox","id":"sh/za9czalg","slide":8,"name":"Content-Placeholder-10-7","text":"price calculator\nLLM 밖의 결정적 코드가 최종 금액과 절감액을 산출","textPreview":"price calculator | LLM 밖의 결정적 코드가 최종 금액과 절감액을 산출","textChars":46,"textLines":2,"bbox":[656.86,421.73,581.33,172.51]}
+{"kind":"shape","id":"sh/y90bq54v","slide":8,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/12w3ng","slide":8,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/agents/coupon_kock_agent/agent.py\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/agents/coupon_kock_agent/tools.py\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/tests/test_adk_agent.py"}
+{"kind":"slide","id":"sl/22wmn6","slide":9,"title":"공공 상가데이터의 역할","textShapes":4}
+{"kind":"textbox","id":"sh/y5kzipsb","slide":9,"name":"Google-Shape-534-p58-1","text":"공공 상가데이터의 역할\n• 반경 내 매장 후보와 좌표 조회\n• Cloud Run에서 인증키를 Secret으로 호출\n• 실패 시 fixture와 notice로 출처를 구분","textPreview":"공공 상가데이터의 역할 | • 반경 내 매장 후보와 좌표 조회 | • Cloud Run에서 인증키를 Secret으로 호출 | • 실패 시 fixture와 notice로 출처를 구분","textChars":94,"textLines":4,"bbox":[41.33,193.05,580.91,436.28]}
+{"kind":"textbox","id":"sh/l8bid4r2","slide":9,"name":"Google-Shape-532-p58-3","text":"09","textPreview":"09","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/k72hkzah","slide":9,"name":"Google-Shape-533-p58-4","text":"공공데이터는 후보를 만들고, 쿠폰 데이터가 의미를 만든다","textPreview":"공공데이터는 후보를 만들고, 쿠폰 데이터가 의미를 만든다","textChars":31,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/7at0fe9s","slide":9,"name":"Google-Shape-534-p58-5","text":"서비스 계층의 보정\n쿠폰 브랜드 매칭 → Haversine 재계산 → 오름차순 정렬 → Top 5\n브랜드 누락은 Google Places·공식 Store Master로 보완 예정","textPreview":"서비스 계층의 보정 | 쿠폰 브랜드 매칭 → Haversine 재계산 → 오름차순 정렬 → Top 5 | 브랜드 누락은 Google Places·공식 Store Master로 보완 예정","textChars":99,"textLines":3,"bbox":[657.75,230.2,581.33,399.13]}
+{"kind":"shape","id":"sh/m9kzm9s7","slide":9,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/22wmn6","slide":9,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/public-data.md\n- https://www.data.go.kr/data/15012005/openapi.do\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/tests/test_coupons_and_stores.py"}
+{"kind":"slide","id":"sl/8ls0qi","slide":10,"title":"10","textShapes":6}
+{"kind":"textbox","id":"sh/l8rmpkby","slide":10,"name":"Slide-Number-Placeholder-1-2","text":"10","textPreview":"10","textChars":2,"textLines":1,"bbox":[1184.17,659.17,54.5,25.33]}
+{"kind":"textbox","id":"sh/y5gnu5cn","slide":10,"name":"Title-2-3","text":"프론트와 백엔드는 명확한 API 계약으로 연결된다","textPreview":"프론트와 백엔드는 명확한 API 계약으로 연결된다","textChars":27,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/z6p4nat8","slide":10,"name":"Content-Placeholder-9-4","text":"POST /api/coupons\n브랜드·상품·금액·유효기간을 검증하고 Firestore에 저장","textPreview":"POST /api/coupons | 브랜드·상품·금액·유효기간을 검증하고 Firestore에 저장","textChars":52,"textLines":2,"bbox":[41.33,213.33,581.33,172.5]}
+{"kind":"textbox","id":"sh/c3y5svuh","slide":10,"name":"Content-Placeholder-10-5","text":"GET /api/stores/nearby\n사용자·좌표·반경·limit으로 쿠폰 사용 가능 Top 5 반환","textPreview":"GET /api/stores/nearby | 사용자·좌표·반경·limit으로 쿠폰 사용 가능 Top 5 반환","textChars":58,"textLines":2,"bbox":[656.86,213.33,581.33,172.5]}
+{"kind":"textbox","id":"sh/x47ml0b2","slide":10,"name":"Content-Placeholder-9-6","text":"POST /api/recommendations\n결제금액과 후보를 받아 예상 최종 금액을 계산","textPreview":"POST /api/recommendations | 결제금액과 후보를 받아 예상 최종 금액을 계산","textChars":51,"textLines":2,"bbox":[41.33,421.73,581.33,172.51]}
+{"kind":"textbox","id":"sh/a1gnq5cb","slide":10,"name":"Content-Placeholder-10-7","text":"POST /api/agent/recommendations\nADK 실행 결과와 answer·tool_trace를 함께 반환","textPreview":"POST /api/agent/recommendations | ADK 실행 결과와 answer·tool_trace를 함께 반환","textChars":67,"textLines":2,"bbox":[656.86,421.73,581.33,172.51]}
+{"kind":"shape","id":"sh/b2p4jqtw","slide":10,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/8ls0qi","slide":10,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/api.md\n- https://coupon-kock-663890381698.asia-northeast3.run.app/docs"}
+{"kind":"slide","id":"sl/gwahwd","slide":11,"title":"11","textShapes":8}
+{"kind":"textbox","id":"sh/i5grahk7","slide":11,"name":"Slide-Number-Placeholder-3-2","text":"11","textPreview":"11","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/5srqlcji","slide":11,"name":"Title-10-3","text":"Git push가 웹과 API 배포로 이어지도록 자동화했다","textPreview":"Git push가 웹과 API 배포로 이어지도록 자동화했다","textChars":32,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"shape","id":"sh/4ri9c72x","slide":11,"name":"Google-Shape-2259-p159-4","bbox":[35.46,354.2,1285.61,0.03]}
+{"kind":"shape","id":"sh/v2p8f21g","slide":11,"name":"Google-Shape-2260-p159-5","bbox":[35.46,348.58,11.24,11.24]}
+{"kind":"shape","id":"sh/u1g76xkv","slide":11,"name":"Google-Shape-2261-p159-6","bbox":[446.38,348.58,11.24,11.24]}
+{"kind":"shape","id":"sh/h47qhcjm","slide":11,"name":"Google-Shape-2262-p159-7","bbox":[858.38,348.58,11.24,11.24]}
+{"kind":"textbox","id":"sh/w3y98721","slide":11,"name":"Content-Placeholder-15-8","text":"SOURCE","textPreview":"SOURCE","textChars":6,"textLines":1,"bbox":[41.33,298.51,169.33,27.55]}
+{"kind":"textbox","id":"sh/7yp8b21k","slide":11,"name":"Content-Placeholder-15-9","text":"BACKEND","textPreview":"BACKEND","textChars":7,"textLines":1,"bbox":[450.83,298.51,169.33,27.55]}
+{"kind":"textbox","id":"sh/mxw72xkz","slide":11,"name":"Content-Placeholder-15-10","text":"FRONTEND","textPreview":"FRONTEND","textChars":8,"textLines":1,"bbox":[863.33,298.51,169.33,27.55]}
+{"kind":"textbox","id":"sh/g76lgjed","slide":11,"name":"Text-Placeholder-16-11","text":"Cloud Build → Run\nDocker 이미지 생성, Artifact Registry, 새 Revision 배포","textPreview":"Cloud Build → Run | Docker 이미지 생성, Artifact Registry, 새 Revision 배포","textChars":65,"textLines":2,"bbox":[453.24,401.33,331.35,166.54]}
+{"kind":"textbox","id":"sh/h8f2povy","slide":11,"name":"Text-Placeholder-16-12","text":"GitHub main\n기능 단위 커밋과 문서로 변경 범위를 추적","textPreview":"GitHub main | 기능 단위 커밋과 문서로 변경 범위를 추적","textChars":35,"textLines":2,"bbox":[41.98,401.33,331.35,166.54]}
+{"kind":"textbox","id":"sh/u5o3e9wn","slide":11,"name":"Text-Placeholder-16-13","text":"Flutter → Firebase\ndart-define으로 환경을 주입해 Web release를 Hosting에 배포","textPreview":"Flutter → Firebase | dart-define으로 환경을 주입해 Web release를 Hosting에 배포","textChars":65,"textLines":2,"bbox":[858.57,401.33,331.35,166.54]}
+{"kind":"shape","id":"sh/v6xkned8","slide":11,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/gwahwd","slide":11,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/README.md\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/implementation-plan.md\n- https://github.com/guddn/Coupon_Kock"}
+{"kind":"slide","id":"sl/4g1d4b","slide":12,"title":"막혔던 지점","textShapes":4}
+{"kind":"textbox","id":"sh/sjaxwj2t","slide":12,"name":"Google-Shape-534-p58-1","text":"막혔던 지점\n• Developer Connect 읽기 토큰 403\n• Backend 경로 대소문자·Docker context 오류\n• Secret Manager 접근 거부와 공공 API 키 오류","textPreview":"막혔던 지점 | • Developer Connect 읽기 토큰 403 | • Backend 경로 대소문자·Docker context 오류 | • Secret Manager 접근 거부와 공공 API 키 오류","textChars":108,"textLines":4,"bbox":[41.33,193.05,580.91,436.28]}
+{"kind":"textbox","id":"sh/ry1wne18","slide":12,"name":"Google-Shape-532-p58-3","text":"12","textPreview":"12","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/qx8vu9kn","slide":12,"name":"Google-Shape-533-p58-4","text":"배포 문제는 계정·런타임·데이터 경계를 분리해 해결했다","textPreview":"배포 문제는 계정·런타임·데이터 경계를 분리해 해결했다","textChars":30,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/1ojetoja","slide":12,"name":"Google-Shape-534-p58-5","text":"해결 원칙\n빌드 계정과 Cloud Run 런타임 계정의 IAM을 분리하고 최소 역할을 부여\n실패 원인을 UI 메시지와 data_source·notice로 노출해 디버깅 가능성 확보","textPreview":"해결 원칙 | 빌드 계정과 Cloud Run 런타임 계정의 IAM을 분리하고 최소 역할을 부여 | 실패 원인을 UI 메시지와 data_source·notice로 노출해 디버깅 가능성 확보","textChars":100,"textLines":3,"bbox":[657.75,230.2,581.33,399.13]}
+{"kind":"shape","id":"sh/0nax032p","slide":12,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/4g1d4b","slide":12,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/README.md"}
+{"kind":"slide","id":"sl/xi9b48","slide":13,"title":"13","textShapes":9}
+{"kind":"shape","id":"sh/ahkb6tk3","slide":13,"name":"Rounded-Rectangle-5-1","bbox":[41.33,317.33,374.67,312]}
+{"kind":"shape","id":"sh/xkba1o3u","slide":13,"name":"Rounded-Rectangle-6-2","bbox":[452.67,317.33,374.67,312]}
+{"kind":"shape","id":"sh/wj2t8j29","slide":13,"name":"Rounded-Rectangle-7-3","bbox":[864.28,317.33,374.67,312]}
+{"kind":"textbox","id":"sh/jmts3yl0","slide":13,"name":"Slide-Number-Placeholder-1-4","text":"13","textPreview":"13","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/ylkbatkf","slide":13,"name":"Title-2-5","text":"자동화 테스트와 배포 상태로 MVP의 핵심 가설을 검증했다","textPreview":"자동화 테스트와 배포 상태로 MVP의 핵심 가설을 검증했다","textChars":32,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/l8ba583q","slide":13,"name":"Content-Placeholder-9-6","text":"Backend 16 + Flutter 5\n자동화 테스트 통과","textPreview":"Backend 16 + Flutter 5 | 자동화 테스트 통과","textChars":33,"textLines":2,"bbox":[73.74,514.5,309.67,86]}
+{"kind":"textbox","id":"sh/k72tc325","slide":13,"name":"Content-Placeholder-10-7","text":"쿠폰 브랜드 필터 후\n거리순 추천","textPreview":"쿠폰 브랜드 필터 후 | 거리순 추천","textChars":18,"textLines":2,"bbox":[896.78,514.5,309.67,86]}
+{"kind":"textbox","id":"sh/zq9srulg","slide":13,"name":"Content-Placeholder-11-8","text":"Cloud Run /health\n정상 응답","textPreview":"Cloud Run /health | 정상 응답","textChars":23,"textLines":2,"bbox":[485.17,514.5,309.67,86]}
+{"kind":"textbox","id":"sh/epgry9kv","slide":13,"name":"Content-Placeholder-9-9","text":"21","textPreview":"21","textChars":2,"textLines":1,"bbox":[73.74,360,308.67,142.71]}
+{"kind":"textbox","id":"sh/gfyd8fid","slide":13,"name":"Content-Placeholder-9-10","text":"200","textPreview":"200","textChars":3,"textLines":1,"bbox":[484.3,360,308.67,142.71]}
+{"kind":"textbox","id":"sh/1g7uhkzy","slide":13,"name":"Content-Placeholder-9-11","text":"Top 5","textPreview":"Top 5","textChars":5,"textLines":1,"bbox":[898.94,360,308.67,142.71]}
+{"kind":"textbox","id":"sh/etgv650n","slide":13,"name":"Content-Placeholder-15-12","text":"계산과 필터는 결정적 코드로 검증하고, 생성 모델은 결과를 바꾸지 않도록 제한했다.\n","textPreview":"계산과 필터는 결정적 코드로 검증하고, 생성 모델은 결과를 바꾸지 않도록 제한했다. |","textChars":47,"textLines":2,"bbox":[41.33,119.51,1197.33,167.92]}
+{"kind":"shape","id":"sh/fepcfa1s","slide":13,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/xi9b48","slide":13,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/tests\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/test\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx"}
+{"kind":"slide","id":"sl/r8ecxa","slide":14,"title":"현재 시연 가능","textShapes":4}
+{"kind":"textbox","id":"sh/9cr2p0rm","slide":14,"name":"Google-Shape-534-p58-1","text":"현재 시연 가능\n쿠폰 수동 등록·Firestore 조회\nGPS·지도·공공데이터·쿠폰 매장 Top 5\n결정적 혜택 계산·ADK tool_trace·Cloud 배포","textPreview":"현재 시연 가능 | 쿠폰 수동 등록·Firestore 조회 | GPS·지도·공공데이터·쿠폰 매장 Top 5 | 결정적 혜택 계산·ADK tool_trace·Cloud 배포","textChars":89,"textLines":4,"bbox":[41.33,193.05,580.91,436.28]}
+{"kind":"textbox","id":"sh/mpg3ul8v","slide":14,"name":"Google-Shape-532-p58-3","text":"14","textPreview":"14","textChars":2,"textLines":1,"bbox":[1184.18,659.24,54.48,25.33]}
+{"kind":"textbox","id":"sh/nq9knq9g","slide":14,"name":"Google-Shape-533-p58-4","text":"완성한 MVP와 다음 확장 범위를 의도적으로 구분했다","textPreview":"완성한 MVP와 다음 확장 범위를 의도적으로 구분했다","textChars":29,"textLines":1,"bbox":[41.33,36.12,1197.33,109.97]}
+{"kind":"textbox","id":"sh/wfil0vqd","slide":14,"name":"Google-Shape-534-p58-5","text":"다음 우선순위\nGoogle Places·공식 Store Master로 브랜드 coverage 보완\nFirebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림","textPreview":"다음 우선순위 | Google Places·공식 Store Master로 브랜드 coverage 보완 | Firebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림","textChars":121,"textLines":3,"bbox":[657.75,230.2,581.33,399.13]}
+{"kind":"shape","id":"sh/xgrmt0ri","slide":14,"name":"coupon-kock-accent","bbox":[41,121,112,7]}
+{"kind":"notes","id":"nt/r8ecxa","slide":14,"text":"[Sources]\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/implementation-plan.md\n- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx"}
+{"kind":"slide","id":"sl/3nt2kb","slide":15,"title":"쿠폰콕은","textShapes":3}
+{"kind":"textbox","id":"sh/8jut4761","slide":15,"name":"Title-3-1","text":"쿠폰콕은\n‘작동하는 연결’을 증명했다","textPreview":"쿠폰콕은 | ‘작동하는 연결’을 증명했다","textChars":20,"textLines":2,"bbox":[41.33,182.55,992,261.57]}
+{"kind":"textbox","id":"sh/7ilsb2pg","slide":15,"name":"Subtitle-4-2","text":"Flutter Web · FastAPI · Cloud Run · Firestore\ngithub.com/guddn/Coupon_Kock\nproj-aj25-211200020328.web.app","textPreview":"Flutter Web · FastAPI · Cloud Run · Firestore | github.com/guddn/Coupon_Kock | proj-aj25-211200020328.web.app","textChars":105,"textLines":3,"bbox":[41.33,522.13,374.67,113.41]}
+{"kind":"textbox","id":"sh/mhsr2hov","slide":15,"name":"Subtitle-4-3","text":"FULL-STACK AI PROJECT","textPreview":"FULL-STACK AI PROJECT","textChars":21,"textLines":1,"bbox":[41.33,41.18,169.33,68.15]}
+{"kind":"shape","id":"sh/h83ahw7i","slide":15,"bbox":[41,468,132,10]}
+{"kind":"notes","id":"nt/3nt2kb","slide":15,"text":"[Sources]\n- https://github.com/guddn/Coupon_Kock\n- https://proj-aj25-211200020328.web.app\n- https://coupon-kock-663890381698.asia-northeast3.run.app/docs"}

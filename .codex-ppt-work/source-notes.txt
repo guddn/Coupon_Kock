@@ -1,0 +1,28 @@
+Primary internal source
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/deliverables/AJOU_PBL_1차_MVP_쿠폰콕_통합제출서.docx
+
+Repository sources
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/README.md
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/architecture.md
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/api.md
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/docs/public-data.md
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/agents/coupon_kock_agent/agent.py
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/agents/coupon_kock_agent/tools.py
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/app/services/recommendation.py
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/backend/tests
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/lib/features/nearby/nearby_screen.dart
+- D:/development/Github/_AJOU_class/2026-1_AI_Bootcamp/Coupon_Kock/frontend/test
+
+Visual assets
+- .codex-ppt-work/assets/gifticon.png — repository coupon sample; barcode already masked
+- .codex-ppt-work/assets/map-qa-before.png — user-provided QA screenshot showing clipped map and duplicate distance display
+- .codex-ppt-work/assets/system-architecture.png — project-authored architecture diagram created for the integrated submission
+- .codex-ppt-work/assets/agent-pipeline.png — project-authored agent flow diagram created for the integrated submission
+
+External/public references already documented in the project
+- https://www.data.go.kr/data/15012005/openapi.do — 소상공인시장진흥공단 상가(상권)정보 OpenAPI
+- https://coupon-kock-663890381698.asia-northeast3.run.app/docs — deployed FastAPI documentation
+- https://proj-aj25-211200020328.web.app — deployed Firebase Hosting URL
+- https://github.com/guddn/Coupon_Kock — GitHub repository
+
+No externally sourced stock imagery or unverified performance claims are used. The 21-test result and feature status come from the integrated submission and repository test suites.

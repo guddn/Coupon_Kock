@@ -1,0 +1,865 @@
+{
+  "schema": "openai.presentation.layout/v4",
+  "unit": "px",
+  "slide": {
+    "aid": "sl/r8ecxa",
+    "id": "r8ecxa",
+    "slide": 14,
+    "layoutId": "4c013d63-0568-4d42-877c-ef6b5ea9931b",
+    "layoutName": "Title Slide",
+    "layoutType": "title",
+    "masterLayoutId": "275154c4-08cd-45bf-adda-7329f957a70c",
+    "masterLayoutName": "Master",
+    "frame": {
+      "left": 0,
+      "top": 0,
+      "width": 1280,
+      "height": 720
+    }
+  },
+  "theme": {
+    "colorSchemeName": "ChatGPT",
+    "colors": {
+      "accent1": "#156082",
+      "accent2": "#E97132",
+      "accent3": "#196B24",
+      "accent4": "#0F9ED5",
+      "accent5": "#A02B93",
+      "accent6": "#4EA72E",
+      "bg1": "#FFFFFF",
+      "bg2": "#000000",
+      "tx1": "#1F1F1F",
+      "tx2": "#FFFFFF",
+      "dk1": "#000000",
+      "lt1": "#FFFFFF",
+      "dk2": "#0E2841",
+      "lt2": "#E8E8E8",
+      "hlink": "#467886",
+      "folHlink": "#96607D"
+    },
+    "typefaces": [
+      "Helvetica Neue",
+      "Noto Sans KR"
+    ]
+  },
+  "inheritedLayers": [
+    {
+      "scope": "layout",
+      "id": "4c013d63-0568-4d42-877c-ef6b5ea9931b",
+      "name": "Title Slide",
+      "type": "title",
+      "parentLayoutId": "275154c4-08cd-45bf-adda-7329f957a70c",
+      "elements": []
+    },
+    {
+      "scope": "master",
+      "id": "275154c4-08cd-45bf-adda-7329f957a70c",
+      "name": "Master",
+      "type": "master",
+      "elements": []
+    }
+  ],
+  "elements": [
+    {
+      "order": 1,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/9cr2p0rm",
+      "id": "1",
+      "name": "Google-Shape-534-p58-1",
+      "bbox": [
+        41.33,
+        193.05,
+        580.91,
+        436.28
+      ],
+      "composeSource": {
+        "run": 1,
+        "path": "0.0"
+      },
+      "geometry": "rect",
+      "text": "현재 시연 가능\n쿠폰 수동 등록·Firestore 조회\nGPS·지도·공공데이터·쿠폰 매장 Top 5\n결정적 혜택 계산·ADK tool_trace·Cloud 배포",
+      "textPreview": "현재 시연 가능 | 쿠폰 수동 등록·Firestore 조회 | GPS·지도·공공데이터·쿠폰 매장 Top 5 | 결정적 혜택 계산·ADK tool_trace·Cloud 배포",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "Helvetica Neue",
+        "color": "#000000",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "현재 시연 가능"
+          },
+          {
+            "index": 2,
+            "text": "쿠폰 수동 등록·Firestore 조회"
+          },
+          {
+            "index": 3,
+            "text": "GPS·지도·공공데이터·쿠폰 매장 Top 5"
+          },
+          {
+            "index": 4,
+            "text": "결정적 혜택 계산·ADK tool_trace·Cloud 배포"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "현재 시연 가능",
+          "lineSpacingPercent": 112000,
+          "spaceBefore": 0,
+          "spaceAfter": 550,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "현재 시연 가능",
+              "fontSize": 25,
+              "typeface": "Noto Sans KR",
+              "color": "#111111",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "쿠폰 수동 등록·Firestore 조회",
+          "lineSpacingPercent": 122000,
+          "spaceBefore": 0,
+          "spaceAfter": 750,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "쿠폰 수동 등록·Firestore 조회",
+              "fontSize": 21,
+              "typeface": "Noto Sans KR",
+              "color": "#5F6368"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "GPS·지도·공공데이터·쿠폰 매장 Top 5",
+          "lineSpacingPercent": 122000,
+          "spaceBefore": 0,
+          "spaceAfter": 750,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "GPS·지도·공공데이터·쿠폰 매장 Top 5",
+              "fontSize": 21,
+              "typeface": "Noto Sans KR",
+              "color": "#5F6368"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 4,
+          "text": "결정적 혜택 계산·ADK tool_trace·Cloud 배포",
+          "lineSpacingPercent": 122000,
+          "spaceBefore": 0,
+          "spaceAfter": 750,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "결정적 혜택 계산·ADK tool_trace·Cloud 배포",
+              "fontSize": 21,
+              "typeface": "Noto Sans KR",
+              "color": "#5F6368"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 2,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/mpg3ul8v",
+      "id": "2",
+      "name": "Google-Shape-532-p58-3",
+      "bbox": [
+        1184.18,
+        659.24,
+        54.48,
+        25.33
+      ],
+      "composeSource": {
+        "run": 1,
+        "path": "0.1"
+      },
+      "geometry": "rect",
+      "text": "14",
+      "textPreview": "14",
+      "resolvedFontSize": 13.33,
+      "resolvedTextStyle": {
+        "anchor": 3,
+        "fontSize": 13.33,
+        "typeface": "Helvetica Neue",
+        "color": "#000000",
+        "alignment": "right",
+        "verticalAlignment": "bottom",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "14"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "14",
+          "lineSpacingPercent": 112000,
+          "spaceBefore": 0,
+          "spaceAfter": 0,
+          "resolvedTextStyle": {
+            "anchor": 3,
+            "fontSize": 13.33,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "right",
+            "verticalAlignment": "bottom",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "14",
+              "fontSize": 14,
+              "typeface": "Noto Sans KR",
+              "color": "#5F6368"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 3,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/nq9knq9g",
+      "id": "3",
+      "name": "Google-Shape-533-p58-4",
+      "bbox": [
+        41.33,
+        36.12,
+        1197.33,
+        109.97
+      ],
+      "composeSource": {
+        "run": 1,
+        "path": "0.2"
+      },
+      "geometry": "rect",
+      "text": "완성한 MVP와 다음 확장 범위를 의도적으로 구분했다",
+      "textPreview": "완성한 MVP와 다음 확장 범위를 의도적으로 구분했다",
+      "resolvedFontSize": 38.67,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 38.67,
+        "typeface": "Helvetica Neue",
+        "color": "#000000",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 1,
+        "lines": [
+          {
+            "index": 1,
+            "text": "완성한 MVP와 다음 확장 범위를 의도적으로 구분했다"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "완성한 MVP와 다음 확장 범위를 의도적으로 구분했다",
+          "lineSpacingPercent": 94000,
+          "spaceBefore": 0,
+          "spaceAfter": 650,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 38.67,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "완성한 MVP와 다음 확장 범위를 의도적으로 구분했다",
+              "fontSize": 46,
+              "typeface": "Noto Sans KR",
+              "color": "#111111",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 4,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/wfil0vqd",
+      "id": "4",
+      "name": "Google-Shape-534-p58-5",
+      "bbox": [
+        657.75,
+        230.2,
+        581.33,
+        399.13
+      ],
+      "composeSource": {
+        "run": 1,
+        "path": "0.3"
+      },
+      "geometry": "rect",
+      "text": "다음 우선순위\nGoogle Places·공식 Store Master로 브랜드 coverage 보완\nFirebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림",
+      "textPreview": "다음 우선순위 | Google Places·공식 Store Master로 브랜드 coverage 보완 | Firebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림",
+      "resolvedFontSize": 32,
+      "resolvedTextStyle": {
+        "anchor": 1,
+        "fontSize": 32,
+        "typeface": "Helvetica Neue",
+        "color": "#000000",
+        "alignment": "left",
+        "verticalAlignment": "top",
+        "wrap": "square",
+        "autoFit": "none",
+        "insets": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        }
+      },
+      "textLayout": {
+        "lineCount": 4,
+        "lines": [
+          {
+            "index": 1,
+            "text": "다음 우선순위"
+          },
+          {
+            "index": 2,
+            "text": "Google Places·공식 Store Master로 브랜드 coverage 보완"
+          },
+          {
+            "index": 3,
+            "text": "Firebase Auth → Android OCR → 공식 카드·통신사 Vector"
+          },
+          {
+            "index": 4,
+            "text": "RAG → geofencing 알림"
+          }
+        ]
+      },
+      "paragraphs": [
+        {
+          "index": 1,
+          "text": "다음 우선순위",
+          "lineSpacingPercent": 112000,
+          "spaceBefore": 0,
+          "spaceAfter": 550,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "다음 우선순위",
+              "fontSize": 25,
+              "typeface": "Noto Sans KR",
+              "color": "#111111",
+              "bold": true
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 2,
+          "text": "Google Places·공식 Store Master로 브랜드 coverage 보완",
+          "lineSpacingPercent": 122000,
+          "spaceBefore": 0,
+          "spaceAfter": 750,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Google Places·공식 Store Master로 브랜드 coverage 보완",
+              "fontSize": 21,
+              "typeface": "Noto Sans KR",
+              "color": "#5F6368"
+            }
+          ],
+          "marginLeft": 0
+        },
+        {
+          "index": 3,
+          "text": "Firebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림",
+          "lineSpacingPercent": 122000,
+          "spaceBefore": 0,
+          "spaceAfter": 750,
+          "resolvedTextStyle": {
+            "anchor": 1,
+            "fontSize": 32,
+            "typeface": "Helvetica Neue",
+            "color": "#000000",
+            "alignment": "left",
+            "verticalAlignment": "top",
+            "wrap": "square",
+            "autoFit": "none",
+            "insets": {
+              "top": 0,
+              "right": 0,
+              "bottom": 0,
+              "left": 0
+            }
+          },
+          "runs": [
+            {
+              "index": 1,
+              "text": "Firebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림",
+              "fontSize": 21,
+              "typeface": "Noto Sans KR",
+              "color": "#5F6368"
+            }
+          ],
+          "marginLeft": 0
+        }
+      ]
+    },
+    {
+      "order": 5,
+      "kind": "shape",
+      "scope": "slide",
+      "aid": "sh/xgrmt0ri",
+      "id": "5",
+      "name": "coupon-kock-accent",
+      "bbox": [
+        41,
+        121,
+        112,
+        7
+      ],
+      "geometry": "rect",
+      "fillColor": "#F7C948",
+      "lineColor": "#F7C948",
+      "lineWidth": 0
+    }
+  ],
+  "composeRuns": [
+    {
+      "index": 1,
+      "frame": {
+        "left": 0,
+        "top": 0,
+        "width": 1280,
+        "height": 720
+      },
+      "baseUnit": 1,
+      "root": {
+        "path": "0",
+        "kind": "layers",
+        "name": "codex-grid-layout-library#slide-04",
+        "requestedSize": {
+          "width": {
+            "mode": "fill",
+            "value": 1
+          },
+          "height": {
+            "mode": "fill",
+            "value": 1
+          }
+        },
+        "intrinsicSize": {
+          "width": 1239.08,
+          "height": 684.57
+        },
+        "frame": {
+          "left": 0,
+          "top": 0,
+          "width": 1280,
+          "height": 720
+        },
+        "children": [
+          {
+            "path": "0.0",
+            "kind": "text",
+            "name": "Google-Shape-534-p58-1",
+            "position": {
+              "left": 41.33,
+              "top": 193.05
+            },
+            "requestedSize": {
+              "width": {
+                "mode": "fixed",
+                "value": 580.91
+              },
+              "height": {
+                "mode": "fixed",
+                "value": 436.28
+              }
+            },
+            "intrinsicSize": {
+              "width": 580.91,
+              "height": 436.28
+            },
+            "frame": {
+              "left": 41.33,
+              "top": 193.05,
+              "width": 580.91,
+              "height": 436.28
+            },
+            "snappedFrame": {
+              "left": 41.33,
+              "top": 193.05,
+              "width": 580.91,
+              "height": 436.28
+            },
+            "children": [],
+            "text": "현재 시연 가능\n쿠폰 수동 등록·Firestore 조회\nGPS·지도·공공데이터·쿠폰 매장 Top 5\n결정적 혜택 계산·ADK tool_trace·Cloud 배포",
+            "transform": "none",
+            "element": {
+              "aid": "sh/9cr2p0rm",
+              "id": "1",
+              "kind": "shape"
+            }
+          },
+          {
+            "path": "0.1",
+            "kind": "text",
+            "name": "Google-Shape-532-p58-3",
+            "position": {
+              "left": 1184.18,
+              "top": 659.24
+            },
+            "requestedSize": {
+              "width": {
+                "mode": "fixed",
+                "value": 54.48
+              },
+              "height": {
+                "mode": "fixed",
+                "value": 25.33
+              }
+            },
+            "intrinsicSize": {
+              "width": 54.48,
+              "height": 25.33
+            },
+            "frame": {
+              "left": 1184.18,
+              "top": 659.24,
+              "width": 54.48,
+              "height": 25.33
+            },
+            "snappedFrame": {
+              "left": 1184.18,
+              "top": 659.24,
+              "width": 54.48,
+              "height": 25.33
+            },
+            "children": [],
+            "text": "14",
+            "transform": "none",
+            "element": {
+              "aid": "sh/mpg3ul8v",
+              "id": "2",
+              "kind": "shape"
+            }
+          },
+          {
+            "path": "0.2",
+            "kind": "text",
+            "name": "Google-Shape-533-p58-4",
+            "position": {
+              "left": 41.33,
+              "top": 36.12
+            },
+            "requestedSize": {
+              "width": {
+                "mode": "fixed",
+                "value": 1197.33
+              },
+              "height": {
+                "mode": "fixed",
+                "value": 109.97
+              }
+            },
+            "intrinsicSize": {
+              "width": 1197.33,
+              "height": 109.97
+            },
+            "frame": {
+              "left": 41.33,
+              "top": 36.12,
+              "width": 1197.33,
+              "height": 109.97
+            },
+            "snappedFrame": {
+              "left": 41.33,
+              "top": 36.12,
+              "width": 1197.33,
+              "height": 109.97
+            },
+            "children": [],
+            "text": "완성한 MVP와 다음 확장 범위를 의도적으로 구분했다",
+            "transform": "none",
+            "element": {
+              "aid": "sh/nq9knq9g",
+              "id": "3",
+              "kind": "shape"
+            }
+          },
+          {
+            "path": "0.3",
+            "kind": "text",
+            "name": "Google-Shape-534-p58-5",
+            "position": {
+              "left": 657.75,
+              "top": 230.2
+            },
+            "requestedSize": {
+              "width": {
+                "mode": "fixed",
+                "value": 581.33
+              },
+              "height": {
+                "mode": "fixed",
+                "value": 399.13
+              }
+            },
+            "intrinsicSize": {
+              "width": 581.33,
+              "height": 399.13
+            },
+            "frame": {
+              "left": 657.75,
+              "top": 230.2,
+              "width": 581.33,
+              "height": 399.13
+            },
+            "snappedFrame": {
+              "left": 657.75,
+              "top": 230.2,
+              "width": 581.33,
+              "height": 399.13
+            },
+            "children": [],
+            "text": "다음 우선순위\nGoogle Places·공식 Store Master로 브랜드 coverage 보완\nFirebase Auth → Android OCR → 공식 카드·통신사 Vector RAG → geofencing 알림",
+            "transform": "none",
+            "element": {
+              "aid": "sh/wfil0vqd",
+              "id": "4",
+              "kind": "shape"
+            }
+          }
+        ],
+        "padding": {
+          "top": 0,
+          "right": 0,
+          "bottom": 0,
+          "left": 0
+        },
+        "alignItems": "stretch",
+        "justifyItems": "stretch",
+        "contentFrame": {
+          "left": 0,
+          "top": 0,
+          "width": 1280,
+          "height": 720
+        },
+        "items": [
+          {
+            "path": "0.0",
+            "frame": {
+              "left": 41.33,
+              "top": 193.05,
+              "width": 580.91,
+              "height": 436.28
+            }
+          },
+          {
+            "path": "0.1",
+            "frame": {
+              "left": 1184.18,
+              "top": 659.24,
+              "width": 54.48,
+              "height": 25.33
+            }
+          },
+          {
+            "path": "0.2",
+            "frame": {
+              "left": 41.33,
+              "top": 36.12,
+              "width": 1197.33,
+              "height": 109.97
+            }
+          },
+          {
+            "path": "0.3",
+            "frame": {
+              "left": 657.75,
+              "top": 230.2,
+              "width": 581.33,
+              "height": 399.13
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
