@@ -43,3 +43,36 @@ def test_nearby_stores_rejects_excessive_radius() -> None:
         params={"latitude": 37.2822, "longitude": 127.0437, "radius_m": 10_000},
     )
     assert response.status_code == 422
+
+
+def test_recommendation_uses_registered_matching_coupon() -> None:
+    user_id = "recommendation-integration-user"
+    created = client.post(
+        "/api/coupons",
+        json={
+            "user_id": user_id,
+            "brand": "쿠폰콕",
+            "product_name": "카페 금액권",
+            "coupon_type": "fixed",
+            "face_value": 4_000,
+            "expiry_date": "2099-12-31",
+        },
+    )
+    assert created.status_code == 201
+
+    response = client.post(
+        "/api/recommendations",
+        json={
+            "user_id": user_id,
+            "latitude": 37.2822,
+            "longitude": 127.0437,
+            "purchase_amount": 10_000,
+        },
+    )
+
+    assert response.status_code == 200
+    payload = response.json()
+    assert payload["store"]["store_id"] == "fixture-cafe"
+    assert payload["recommended_option"]["final_price"] == 6_000
+    assert payload["recommended_option"]["components"][0]["kind"] == "coupon"
+    assert payload["sources"] == []

@@ -53,14 +53,13 @@
   "user_id": "demo-user",
   "latitude": 37.5665,
   "longitude": 126.978,
-  "purchase_amount": 10000,
-  "store_id": "demo-store"
+  "purchase_amount": 10000
 }
 ```
 
-응답은 매장, 정렬된 후보, 추천 옵션, 확인이 필요한 조건과 공식 출처를 반환합니다. 개발용 scaffold에서는 고정 fixture를 사용하며 production adapter가 Firestore/RAG 결과를 주입하도록 경계를 분리했습니다.
+`store_id`를 생략하면 공공데이터 조회 결과에서 가장 가까운 매장을 선택하고, 지정하면 반경 1km 안의 해당 매장을 선택합니다. 선택된 매장명과 브랜드가 일치하고 만료되지 않은 Firestore 쿠폰을 각각 계산한 뒤 최종 결제금액이 낮은 순으로 정렬합니다. 여러 쿠폰을 임의로 합산하지 않습니다.
 
-> 이 엔드포인트는 기존 Flutter 호환용 결정적 데모 API입니다. ADK 모델을 실행하지 않습니다.
+응답은 매장, 정렬된 후보, 추천 옵션과 확인이 필요한 조건을 반환합니다. 카드·통신사 RAG가 연결되기 전까지 검증되지 않은 카드 할인은 계산하지 않으며 `sources`는 빈 배열입니다. 이 엔드포인트는 Flutter용 결정적 계산 API이며 ADK 모델을 실행하지 않습니다.
 
 ## `GET /api/agent`
 
@@ -91,8 +90,7 @@ ADK Runner가 `gemini-2.5-flash`를 호출하고 함수 도구를 실행한 뒤 
   "user_id": "demo-user",
   "latitude": 37.2822,
   "longitude": 127.0437,
-  "purchase_amount": 10000,
-  "store_id": "demo-store"
+  "purchase_amount": 10000
 }
 ```
 

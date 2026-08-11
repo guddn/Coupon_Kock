@@ -8,6 +8,7 @@
 !**/.env.example
 service-account*.json
 firebase-debug.log
+.firebase/
 
 # Python
 __pycache__/

@@ -1,26 +1,19 @@
+from datetime import UTC, datetime
 from typing import Any
 
+from app.services.brand_matcher import brand_matches_store
 from app.services.calculator import DiscountRule, calculate_option, rank_options
-from app.services.store_matcher import haversine_distance_m
-
-DEMO_STORES = (
-    {
-        "store_id": "demo-store",
-        "name": "스타카페 아주대점",
-        "canonical_brand": "스타카페",
-        "latitude": 37.2822,
-        "longitude": 127.0437,
-    },
-)
+from app.services.coupon_registry import coupon_registry
+from app.services.public_store_client import public_store_client
 
 
 def match_nearby_store(
     latitude: float,
     longitude: float,
     store_id: str = "",
-    radius_m: int = 100,
+    radius_m: int = 1_000,
 ) -> dict[str, Any]:
-    """Finds a supported store near a coordinate using deterministic distance math.
+    """Finds the selected or nearest store through the public-data adapter.
 
     Args:
         latitude: User latitude between -90 and 90.
@@ -33,46 +26,34 @@ def match_nearby_store(
     """
     if not (-90 <= latitude <= 90 and -180 <= longitude <= 180):
         return {"status": "invalid_location", "message": "위치 좌표 범위가 올바르지 않습니다."}
-    if not 1 <= radius_m <= 1_000:
-        return {"status": "invalid_radius", "message": "검색 반경은 1~1000m여야 합니다."}
+    if not 100 <= radius_m <= 5_000:
+        return {"status": "invalid_radius", "message": "검색 반경은 100~5000m여야 합니다."}
 
-    candidates = [item for item in DEMO_STORES if not store_id or item["store_id"] == store_id]
-    if not candidates:
-        return {"status": "not_found", "message": "선택한 매장은 현재 지원되지 않습니다."}
-
-    nearest = min(
-        candidates,
-        key=lambda item: haversine_distance_m(
-            latitude,
-            longitude,
-            float(item["latitude"]),
-            float(item["longitude"]),
-        ),
+    nearby = public_store_client.nearby(latitude, longitude, radius_m)
+    selected = (
+        next(
+            (store for store in nearby.stores if store.store_id == store_id),
+            None,
+        )
+        if store_id
+        else (nearby.stores[0] if nearby.stores else None)
     )
-    distance_m = round(
-        haversine_distance_m(
-            latitude,
-            longitude,
-            float(nearest["latitude"]),
-            float(nearest["longitude"]),
-        ),
-        1,
-    )
-    if distance_m > radius_m:
+    if selected is None:
         return {
-            "status": "outside_radius",
-            "nearest_distance_m": distance_m,
-            "message": "설정 반경 안에 지원 매장이 없습니다.",
+            "status": "not_found",
+            "message": "현재 위치 주변에서 선택 가능한 매장을 찾지 못했습니다.",
+            "data_source": nearby.data_source,
         }
     return {
         "status": "success",
         "store": {
-            "store_id": nearest["store_id"],
-            "name": nearest["name"],
-            "canonical_brand": nearest["canonical_brand"],
-            "distance_m": distance_m,
+            "store_id": selected.store_id,
+            "name": selected.name,
+            "canonical_brand": selected.name,
+            "distance_m": selected.distance_m,
         },
-        "data_source": "development_fixture",
+        "data_source": nearby.data_source,
+        "notice": nearby.notice,
     }
 
 
@@ -84,32 +65,33 @@ def load_user_benefit_context(user_id: str, canonical_brand: str) -> dict[str, A
         canonical_brand: Canonical brand returned by match_nearby_store.
 
     Returns:
-        Active coupons and a minimal card/telecom profile. The MVP currently uses fixtures.
+        Active matching coupons from the configured registry and an empty benefit profile.
     """
     if not user_id.strip():
         return {"status": "invalid_user", "message": "user_id가 필요합니다."}
 
-    coupons: list[dict[str, Any]] = []
-    if canonical_brand == "스타카페":
-        coupons.append(
-            {
-                "coupon_id": "demo-coupon",
-                "brand": "스타카페",
-                "name": "모바일 금액권",
-                "face_value": 5_000,
-                "status": "active",
-                "expires_on": "2026-12-31",
-            }
-        )
+    today = datetime.now(UTC).date()
+    coupons = [
+        {
+            "coupon_id": coupon.coupon_id,
+            "brand": coupon.brand,
+            "name": coupon.product_name,
+            "face_value": coupon.face_value,
+            "status": "active",
+            "expires_on": coupon.expiry_date.isoformat(),
+        }
+        for coupon in coupon_registry.list_for_user(user_id)
+        if coupon.expiry_date >= today and brand_matches_store(coupon.brand, canonical_brand)
+    ]
     return {
         "status": "success",
         "coupons": coupons,
         "profile": {
-            "card_product": "데모 카드",
+            "card_product": None,
             "telecom_provider": None,
             "eligibility_confirmed": False,
         },
-        "data_source": "development_fixture",
+        "data_source": "configured_coupon_registry",
         "privacy": "카드번호, 쿠폰 PIN, 정확한 위치를 저장하거나 반환하지 않음",
     }
 
@@ -119,7 +101,7 @@ def retrieve_official_benefit_rules(
     card_product: str = "",
     telecom_provider: str = "",
 ) -> dict[str, Any]:
-    """Retrieves benefit rules and their evidence for a store and user profile.
+    """Returns no card rule until the official benefit RAG store is connected.
 
     Args:
         canonical_brand: Canonical merchant brand.
@@ -127,41 +109,18 @@ def retrieve_official_benefit_rules(
         telecom_provider: User-selected telecom provider.
 
     Returns:
-        Rule candidates and source metadata. Current entries are explicit demo fixtures,
-        not official RAG evidence, and must be labelled as such in the final answer.
+        An explicit no-evidence response so unverified discounts are never calculated.
     """
-    if canonical_brand != "스타카페" or card_product != "데모 카드":
-        return {
-            "status": "no_evidence",
-            "rules": [],
-            "sources": [],
-            "message": "현재 프로필과 매장에 적용할 근거 문서가 없습니다.",
-        }
     return {
-        "status": "fixture_only",
-        "rules": [
-            {
-                "rule_id": "demo-card-rule",
-                "name": "카드 10% 할인 (데모)",
-                "kind": "card",
-                "discount_type": "percentage",
-                "value": 10,
-                "min_purchase": 0,
-                "max_discount": 1_000,
-                "stackable_with_coupon": True,
-                "source_id": "demo-source",
-                "eligibility": "needs_confirmation",
-            }
-        ],
-        "sources": [
-            {
-                "source_id": "demo-source",
-                "title": "개발용 혜택 fixture - 공식 RAG 문서 연결 필요",
-                "url": "https://example.com/replace-with-official-source",
-                "is_official": False,
-            }
-        ],
-        "message": "공식 문서가 아직 적재되지 않아 데모 규칙만 반환했습니다.",
+        "status": "no_evidence",
+        "rules": [],
+        "sources": [],
+        "message": "공식 카드·통신사 혜택 RAG가 아직 연결되지 않았습니다.",
+        "query": {
+            "canonical_brand": canonical_brand,
+            "card_product_configured": bool(card_product),
+            "telecom_provider_configured": bool(telecom_provider),
+        },
     }
 
 

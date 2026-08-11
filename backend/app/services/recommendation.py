@@ -1,57 +1,106 @@
-from datetime import date
+from datetime import UTC, datetime
+from typing import Protocol
 from uuid import uuid4
 
 from app.models.schemas import (
-    BenefitSource,
+    NearbyStoresResponse,
     RecommendationRequest,
     RecommendationResponse,
+    RegisteredCoupon,
     Store,
 )
+from app.services.brand_matcher import brand_matches_store
 from app.services.calculator import DiscountRule, calculate_option, rank_options
+from app.services.coupon_registry import CouponRegistry, coupon_registry
+from app.services.public_store_client import public_store_client
 
 
-def build_demo_recommendation(request: RecommendationRequest) -> RecommendationResponse:
-    """Development fixture; production adapters must supply Firestore/RAG evidence."""
-    coupon = DiscountRule(
-        rule_id="demo-coupon",
-        name="보유 쿠폰",
-        kind="coupon",
-        discount_type="fixed",
-        value=5_000,
-    )
-    card = DiscountRule(
-        rule_id="demo-card",
-        name="공식 문서 기반 카드 할인 (데모)",
-        kind="card",
-        discount_type="percentage",
-        value=10,
-        max_discount=1_000,
-        source_id="demo-source",
-    )
-    options = rank_options(
-        [
-            calculate_option(request.purchase_amount, [coupon], "coupon-only"),
-            calculate_option(request.purchase_amount, [coupon, card], "coupon-card"),
-        ]
-    )
-    source = BenefitSource(
-        source_id="demo-source",
-        title="개발용 공식 혜택 fixture - 실제 배포 전 교체",
-        url="https://example.com/replace-with-official-source",
-        valid_from=date(2026, 1, 1),
-        valid_to=date(2026, 12, 31),
+class StoreClient(Protocol):
+    def nearby(self, latitude: float, longitude: float, radius_m: int) -> NearbyStoresResponse: ...
+
+
+class RecommendationUnavailableError(RuntimeError):
+    """Raised when there is no public-data store that can anchor a recommendation."""
+
+
+def _select_store(request: RecommendationRequest, store_client: StoreClient):
+    nearby = store_client.nearby(request.latitude, request.longitude, 1_000)
+    if request.store_id:
+        selected = next(
+            (store for store in nearby.stores if store.store_id == request.store_id),
+            None,
+        )
+        if selected is None:
+            raise RecommendationUnavailableError(
+                "선택한 매장을 현재 위치 주변에서 찾지 못했습니다."
+            )
+    else:
+        selected = nearby.stores[0] if nearby.stores else None
+    if selected is None:
+        raise RecommendationUnavailableError("현재 위치 반경 1km 안에서 매장을 찾지 못했습니다.")
+    return nearby, selected
+
+
+def _active_matching_coupons(
+    coupons: list[RegisteredCoupon], store_name: str
+) -> list[RegisteredCoupon]:
+    today = datetime.now(UTC).date()
+    return [
+        coupon
+        for coupon in coupons
+        if coupon.expiry_date >= today and brand_matches_store(coupon.brand, store_name)
+    ]
+
+
+def build_recommendation(
+    request: RecommendationRequest,
+    registry: CouponRegistry = coupon_registry,
+    store_client: StoreClient = public_store_client,
+) -> RecommendationResponse:
+    """Build a deterministic recommendation from public stores and registered coupons."""
+    nearby, selected_store = _select_store(request, store_client)
+    coupons = _active_matching_coupons(registry.list_for_user(request.user_id), selected_store.name)
+
+    options = [calculate_option(request.purchase_amount, [], "no-benefit")]
+    for coupon in coupons:
+        rule = DiscountRule(
+            rule_id=coupon.coupon_id,
+            name=f"{coupon.brand} {coupon.product_name}",
+            kind="coupon",
+            discount_type="fixed",
+            value=coupon.face_value,
+        )
+        options.append(
+            calculate_option(
+                request.purchase_amount,
+                [rule],
+                f"coupon-{coupon.coupon_id}",
+            )
+        )
+    options = rank_options(options)
+
+    conditions = ["카드 혜택은 공식 혜택 RAG가 구축된 뒤 추가됩니다."]
+    if nearby.data_source == "fixture":
+        conditions.append(nearby.notice or "공공데이터 대신 샘플 매장을 사용했습니다.")
+    if not coupons:
+        conditions.append("이 매장과 브랜드가 일치하는 유효 쿠폰이 없습니다.")
+
+    message = (
+        "등록된 유효 쿠폰을 반영한 결과입니다."
+        if coupons
+        else "적용 가능한 등록 쿠폰이 없어 할인 없는 결제금액을 표시합니다."
     )
     return RecommendationResponse(
         request_id=str(uuid4()),
         store=Store(
-            store_id=request.store_id or "demo-store",
-            name="데모 매장",
-            canonical_brand="demo-brand",
-            distance_m=0,
+            store_id=selected_store.store_id,
+            name=selected_store.name,
+            canonical_brand=selected_store.name,
+            distance_m=selected_store.distance_m,
         ),
         candidate_options=options,
         recommended_option=options[0],
-        conditions_to_check=["카드 전월 실적과 월 할인 한도는 사용자가 확인해야 합니다."],
-        sources=[source],
-        message="개발용 fixture 결과입니다. 실제 추천에는 Firestore/RAG 공식 근거를 연결하세요.",
+        conditions_to_check=conditions,
+        sources=[],
+        message=message,
     )

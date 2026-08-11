@@ -1,4 +1,7 @@
+from datetime import date
+
 from app.agents.coupon_kock_agent import root_agent
+from app.agents.coupon_kock_agent import tools as agent_tools
 from app.agents.coupon_kock_agent.agent import AGENT_TOOL_NAMES
 from app.agents.coupon_kock_agent.tools import (
     calculate_discount_options,
@@ -6,6 +9,26 @@ from app.agents.coupon_kock_agent.tools import (
     match_nearby_store,
     retrieve_official_benefit_rules,
 )
+from app.models.schemas import CouponCreateRequest, NearbyStore, NearbyStoresResponse
+from app.services.coupon_registry import MemoryCouponRegistry
+
+
+class FakeStoreClient:
+    def nearby(self, latitude: float, longitude: float, radius_m: int) -> NearbyStoresResponse:
+        return NearbyStoresResponse(
+            data_source="public_data",
+            stores=[
+                NearbyStore(
+                    store_id="store-1",
+                    name="스타카페 아주대점",
+                    category="카페",
+                    address="경기도 수원시",
+                    latitude=latitude + 0.0001,
+                    longitude=longitude + 0.0001,
+                    distance_m=15,
+                )
+            ],
+        )
 
 
 def test_root_agent_exposes_expected_tools() -> None:
@@ -18,28 +41,40 @@ def test_root_agent_exposes_expected_tools() -> None:
     ]
 
 
-def test_agent_tools_produce_deterministic_recommendation() -> None:
-    store_result = match_nearby_store(37.2822, 127.0437, "demo-store")
-    assert store_result["status"] == "success"
-    assert store_result["store"]["canonical_brand"] == "스타카페"
+def test_agent_tools_produce_deterministic_recommendation(monkeypatch) -> None:
+    registry = MemoryCouponRegistry()
+    registry.create(
+        CouponCreateRequest(
+            user_id="demo-user",
+            brand="스타카페",
+            product_name="모바일 금액권",
+            coupon_type="fixed",
+            face_value=5_000,
+            expiry_date=date(2099, 12, 31),
+        )
+    )
+    monkeypatch.setattr(agent_tools, "public_store_client", FakeStoreClient())
+    monkeypatch.setattr(agent_tools, "coupon_registry", registry)
 
-    user_context = load_user_benefit_context("demo-user", "스타카페")
-    rules = retrieve_official_benefit_rules("스타카페", "데모 카드")
+    store_result = match_nearby_store(37.2822, 127.0437, "store-1")
+    assert store_result["status"] == "success"
+    assert store_result["store"]["canonical_brand"] == "스타카페 아주대점"
+
+    user_context = load_user_benefit_context("demo-user", "스타카페 아주대점")
+    rules = retrieve_official_benefit_rules("스타카페 아주대점")
     result = calculate_discount_options(
         purchase_amount=10_000,
         coupon_face_value=user_context["coupons"][0]["face_value"],
-        card_discount_percent=rules["rules"][0]["value"],
-        card_max_discount=rules["rules"][0]["max_discount"],
-        card_stackable_with_coupon=rules["rules"][0]["stackable_with_coupon"],
-        card_source_id=rules["rules"][0]["source_id"],
     )
 
+    assert rules["status"] == "no_evidence"
     assert result["status"] == "success"
-    assert result["recommended_option"]["option_id"] == "coupon-card"
-    assert result["recommended_option"]["final_price"] == 4_500
+    assert result["recommended_option"]["option_id"] == "coupon-only"
+    assert result["recommended_option"]["final_price"] == 5_000
 
 
-def test_store_tool_does_not_echo_exact_location() -> None:
+def test_store_tool_does_not_echo_exact_location(monkeypatch) -> None:
+    monkeypatch.setattr(agent_tools, "public_store_client", FakeStoreClient())
     result = match_nearby_store(37.2822, 127.0437)
     assert "latitude" not in result["store"]
     assert "longitude" not in result["store"]

@@ -24,13 +24,15 @@ AGENT_INSTRUCTION = """
 2. match_nearby_store를 호출한다. 매칭 실패 시 임의 매장을 만들지 말고 종료한다.
 3. 매칭된 canonical_brand로 load_user_benefit_context를 호출한다.
 4. 프로필과 canonical_brand로 retrieve_official_benefit_rules를 호출한다.
-5. 활성 쿠폰 금액과 검색된 카드 규칙을 calculate_discount_options에 전달한다.
-6. calculator가 반환한 recommended_option을 바꾸거나 다시 계산하지 않는다.
+5. 활성 쿠폰이 여러 장이면 face_value가 가장 큰 한 장만 선택하며 금액을 합산하지 않는다.
+6. 공식 source_id가 있는 카드 규칙만 활성 쿠폰과 함께 calculate_discount_options에 전달한다.
+7. 카드 규칙이 없더라도 쿠폰 또는 무혜택 조건으로 calculate_discount_options를 호출한다.
+8. calculator가 반환한 recommended_option을 바꾸거나 다시 계산하지 않는다.
 
 안전 및 근거 규칙:
 - 카드번호, 쿠폰 PIN/바코드, 정확한 위치를 답변에 반복하지 않는다.
 - source_id 없는 카드·통신사 혜택은 계산에 전달하지 않는다.
-- sources의 is_official이 false면 반드시 '개발용 fixture이며 공식 근거 연결 전'이라고 표시한다.
+- 카드·통신사 rules가 비어 있으면 공식 RAG 미연결 상태라고 표시하고 임의 할인을 만들지 않는다.
 - eligibility가 needs_confirmation이면 전월 실적·월 한도를 사용자가 확인해야 한다고 표시한다.
 - 도구 결과에 없는 혜택, 매장, 조건을 만들지 않는다.
 - 산술 계산을 직접 수행하지 않는다.

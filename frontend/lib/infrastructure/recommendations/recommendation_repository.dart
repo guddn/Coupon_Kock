@@ -163,7 +163,6 @@ class ApiRecommendationRepository implements RecommendationRepository {
               'latitude': latitude,
               'longitude': longitude,
               'purchase_amount': purchaseAmount,
-              'store_id': 'demo-store',
             }),
           )
           .timeout(const Duration(seconds: 10));

@@ -19,7 +19,7 @@ from app.services.adk_agent import AgentExecutionError, agent_service
 from app.services.coupon_parser import parse_coupon_placeholder
 from app.services.coupon_registry import coupon_registry
 from app.services.public_store_client import public_store_client
-from app.services.recommendation import build_demo_recommendation
+from app.services.recommendation import RecommendationUnavailableError, build_recommendation
 
 router = APIRouter(prefix="/api")
 
@@ -54,7 +54,10 @@ def list_nearby_stores(
 
 @router.post("/recommendations", response_model=RecommendationResponse)
 def create_recommendation(request: RecommendationRequest) -> RecommendationResponse:
-    return build_demo_recommendation(request)
+    try:
+        return build_recommendation(request)
+    except RecommendationUnavailableError as error:
+        raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=str(error)) from error
 
 
 @router.get("/agent", response_model=AgentInfoResponse)
