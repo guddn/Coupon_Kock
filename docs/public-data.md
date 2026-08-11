@@ -6,6 +6,17 @@
 | 공정위 페어데이터 브랜드별 위치정보 | canonical brand 보조 | 브랜드명, 점포명, 주소, 좌표 | 대표 브랜드 중심 조회, 단독 Master로 사용하지 않음 |
 | 전국지역화폐가맹점표준데이터 | 매장 교차검증/향후 결제수단 | 가맹점명, 주소, 좌표, 상태 | 전체 상가를 대표하지 않음 |
 
+## 실시간 반경 조회
+
+- API: 소상공인시장진흥공단 상가(상권)정보 API
+- 기능: `GET /storeListInRadius`
+- Backend adapter: `backend/app/services/public_store_client.py`
+- 앱 API: `GET /api/stores/nearby`
+- 인증: 공공데이터포털에서 발급한 일반 인증키(Decoding)를 Cloud Run의 `PUBLIC_DATA_SERVICE_KEY` 환경변수로 주입
+- 제한: 앱 요청 반경은 100m~5km, 공공 API 요청은 최대 100개로 제한
+
+인증키가 없거나 공공 API가 일시적으로 실패하면 백엔드는 `data_source=fixture`와 안내 문구를 반환합니다. 이 데이터는 UI 개발용이며 실제 공공데이터로 오인해 추천 근거로 사용하면 안 됩니다.
+
 ## 전처리 규칙
 
 - 원본 인코딩을 감지해 UTF-8 JSONL로 변환합니다.
@@ -16,4 +27,3 @@
 - 매핑 confidence가 낮으면 자동 추천에서 제외하고 사용자가 확인하도록 합니다.
 
 원본/대용량 가공 파일은 Git에 커밋하지 않습니다. 데이터 스냅샷 날짜, 원본 URL, 라이선스, checksum은 `data/manifests/`에 기록합니다.
-

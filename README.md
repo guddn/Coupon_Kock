@@ -47,10 +47,17 @@ uvicorn app.main:app --reload
 ```bash
 cd frontend
 flutter pub get
-flutter run --dart-define=API_BASE_URL=http://localhost:8080
+
+# Android: frontend/android/local.properties에 MAPS_API_KEY를 추가한 뒤 실행
+flutter run --dart-define=API_BASE_URL=http://10.0.2.2:8080
+
+# Web: API 키를 저장소에 쓰지 않고 런타임에 Maps SDK 로드
+flutter run -d chrome --web-port=5000 \
+  --dart-define=API_BASE_URL=http://localhost:8080 \
+  --dart-define=GOOGLE_MAPS_API_KEY="$GOOGLE_MAPS_API_KEY"
 ```
 
-현재 UI는 API 연결 전에도 시연할 수 있는 로컬 데모 상태를 포함합니다. 실제 ML Kit OCR, 위치 권한, Firebase 인증 어댑터는 `frontend/lib/infrastructure/`의 인터페이스를 구현해 연결합니다.
+Google Cloud Console에서 Android용 `Maps SDK for Android`, Web용 `Maps JavaScript API`를 활성화해야 합니다. 플랫폼별로 키를 분리하고 Android 패키지/SHA-1 또는 Web HTTP referrer 제한을 적용하세요. 현재 쿠폰 등록은 수동 입력이며 이미지 OCR은 후속 ML Kit 어댑터 범위입니다.
 
 ## 공공데이터 준비
 

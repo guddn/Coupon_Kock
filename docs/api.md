@@ -17,6 +17,35 @@
 
 응답은 `brand`, `product_name`, `coupon_type`, `face_value`, `expiry_date`, `confidence`, `needs_review`를 포함합니다. 현재 scaffold는 안전한 placeholder parser이며 Vertex AI adapter 연결 전에는 항상 사용자 확인을 요구합니다.
 
+## `POST /api/coupons`
+
+확정된 쿠폰 정보를 등록합니다. PIN과 바코드는 요청 스키마에 포함하지 않습니다.
+
+```json
+{
+  "user_id": "demo-user",
+  "brand": "스타카페",
+  "product_name": "모바일 금액권",
+  "coupon_type": "fixed",
+  "face_value": 5000,
+  "expiry_date": "2027-12-31"
+}
+```
+
+저장소 어댑터는 로컬 기본값인 메모리와 운영용 Firestore를 지원합니다. Cloud Run에는 `COUPON_STORAGE_BACKEND=firestore`와 `GCP_PROJECT_ID`를 설정하고 런타임 서비스 계정에 Firestore 접근 권한을 부여해야 합니다.
+
+## `GET /api/coupons?user_id=demo-user`
+
+사용자의 등록 쿠폰을 유효기간 순으로 반환합니다.
+
+## `GET /api/stores/nearby`
+
+```text
+/api/stores/nearby?latitude=37.2822&longitude=127.0437&radius_m=1000
+```
+
+백엔드만 공공데이터포털의 소상공인시장진흥공단 `storeListInRadius` API를 호출합니다. 앱에는 공공데이터 인증키를 전달하지 않습니다. 응답의 `data_source`는 실제 연동 시 `public_data`, 키가 없거나 호출에 실패하면 `fixture`이며 이 경우 `notice`도 함께 반환합니다.
+
 ## `POST /api/recommendations`
 
 ```json

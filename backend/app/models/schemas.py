@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from typing import Literal
 
 from pydantic import BaseModel, Field, field_validator
@@ -28,11 +28,47 @@ class Coupon(BaseModel):
     needs_review: bool
 
 
+class CouponCreateRequest(BaseModel):
+    user_id: str = Field(min_length=1, max_length=128)
+    brand: str = Field(min_length=1, max_length=100)
+    product_name: str = Field(min_length=1, max_length=200)
+    coupon_type: Literal["fixed", "product", "unknown"] = "fixed"
+    face_value: int = Field(ge=0, le=10_000_000)
+    expiry_date: date
+
+
+class RegisteredCoupon(BaseModel):
+    coupon_id: str
+    user_id: str
+    brand: str
+    product_name: str
+    coupon_type: Literal["fixed", "product", "unknown"]
+    face_value: int = Field(ge=0)
+    expiry_date: date
+    created_at: datetime
+
+
 class Store(BaseModel):
     store_id: str
     name: str
     canonical_brand: str | None = None
     distance_m: float = Field(ge=0)
+
+
+class NearbyStore(BaseModel):
+    store_id: str
+    name: str
+    category: str
+    address: str
+    latitude: float = Field(ge=-90, le=90)
+    longitude: float = Field(ge=-180, le=180)
+    distance_m: float = Field(ge=0)
+
+
+class NearbyStoresResponse(BaseModel):
+    data_source: Literal["public_data", "fixture"]
+    stores: list[NearbyStore]
+    notice: str | None = None
 
 
 class BenefitSource(BaseModel):

@@ -31,3 +31,23 @@ gcloud projects add-iam-policy-binding YOUR_PROJECT_ID \
 ```
 
 ADK 확인 엔드포인트는 `GET /api/agent`, 실행 엔드포인트는 `POST /api/agent/recommendations`입니다.
+
+## 쿠폰 및 공공데이터 런타임 설정
+
+Cloud Run의 쿠폰 등록을 영속화하려면 Firestore Native 데이터베이스를 만든 뒤 다음 값을 설정합니다.
+
+```bash
+gcloud run services update coupon-kock \
+  --project=YOUR_PROJECT_ID \
+  --region=asia-northeast3 \
+  --update-env-vars=COUPON_STORAGE_BACKEND=firestore,GCP_PROJECT_ID=YOUR_PROJECT_ID
+```
+
+런타임 서비스 계정에는 `roles/datastore.user`가 필요합니다. 공공데이터포털 인증키는 Secret Manager의 `public-data-service-key`에 저장한 뒤 Cloud Run 환경변수로 연결합니다.
+
+```bash
+gcloud run services update coupon-kock \
+  --project=YOUR_PROJECT_ID \
+  --region=asia-northeast3 \
+  --set-secrets=PUBLIC_DATA_SERVICE_KEY=public-data-service-key:latest
+```

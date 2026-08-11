@@ -16,7 +16,14 @@ class Settings:
     adk_app_name: str = os.getenv("ADK_APP_NAME", "coupon_kock")
     embedding_model: str = os.getenv("EMBEDDING_MODEL", "gemini-embedding-001")
     firestore_database: str = os.getenv("FIRESTORE_DATABASE", "(default)")
+    coupon_storage_backend: str = os.getenv("COUPON_STORAGE_BACKEND", "memory")
     storage_bucket: str = os.getenv("STORAGE_BUCKET", "")
+    public_data_service_key: str = os.getenv("PUBLIC_DATA_SERVICE_KEY", "")
+    public_data_store_url: str = os.getenv(
+        "PUBLIC_DATA_STORE_URL",
+        "https://apis.data.go.kr/B553077/api/open/sdsc2/storeListInRadius",
+    )
+    public_data_timeout_seconds: float = float(os.getenv("PUBLIC_DATA_TIMEOUT_SECONDS", "5"))
     cors_origins: tuple[str, ...] = _csv(
         "CORS_ORIGINS",
         (
