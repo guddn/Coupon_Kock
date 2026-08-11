@@ -5,6 +5,21 @@ from app.main import app
 client = TestClient(app)
 
 
+def _register_active_coupon(user_id: str, brand: str = "쿠폰콕") -> None:
+    response = client.post(
+        "/api/coupons",
+        json={
+            "user_id": user_id,
+            "brand": brand,
+            "product_name": "테스트 금액권",
+            "coupon_type": "fixed",
+            "face_value": 1_000,
+            "expiry_date": "2099-12-31",
+        },
+    )
+    assert response.status_code == 201
+
+
 def test_register_and_list_coupon() -> None:
     user_id = "coupon-api-test-user"
     created = client.post(
@@ -27,9 +42,16 @@ def test_register_and_list_coupon() -> None:
 
 
 def test_nearby_stores_falls_back_to_fixture_without_service_key() -> None:
+    user_id = "nearby-fixture-user"
+    _register_active_coupon(user_id)
     response = client.get(
         "/api/stores/nearby",
-        params={"latitude": 37.2822, "longitude": 127.0437, "radius_m": 1000},
+        params={
+            "user_id": user_id,
+            "latitude": 37.2822,
+            "longitude": 127.0437,
+            "radius_m": 1000,
+        },
     )
     assert response.status_code == 200
     assert response.json()["data_source"] == "fixture"
@@ -44,15 +66,23 @@ def test_nearby_stores_falls_back_to_fixture_without_service_key() -> None:
 def test_nearby_stores_rejects_excessive_radius() -> None:
     response = client.get(
         "/api/stores/nearby",
-        params={"latitude": 37.2822, "longitude": 127.0437, "radius_m": 10_000},
+        params={
+            "user_id": "radius-test-user",
+            "latitude": 37.2822,
+            "longitude": 127.0437,
+            "radius_m": 10_000,
+        },
     )
     assert response.status_code == 422
 
 
 def test_nearby_stores_supports_smaller_limit() -> None:
+    user_id = "nearby-limit-user"
+    _register_active_coupon(user_id)
     response = client.get(
         "/api/stores/nearby",
         params={
+            "user_id": user_id,
             "latitude": 37.2822,
             "longitude": 127.0437,
             "radius_m": 1000,
@@ -61,6 +91,21 @@ def test_nearby_stores_supports_smaller_limit() -> None:
     )
     assert response.status_code == 200
     assert len(response.json()["stores"]) == 2
+
+
+def test_nearby_stores_excludes_stores_without_registered_coupon() -> None:
+    response = client.get(
+        "/api/stores/nearby",
+        params={
+            "user_id": "user-without-coupons",
+            "latitude": 37.2822,
+            "longitude": 127.0437,
+            "radius_m": 1000,
+        },
+    )
+
+    assert response.status_code == 200
+    assert response.json()["stores"] == []
 
 
 def test_recommendation_uses_registered_matching_coupon() -> None:

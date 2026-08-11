@@ -1,3 +1,5 @@
+from datetime import UTC, datetime
+
 from fastapi import APIRouter, HTTPException, status
 
 from app.agents.coupon_kock_agent import root_agent
@@ -16,6 +18,7 @@ from app.models.schemas import (
     RegisteredCoupon,
 )
 from app.services.adk_agent import AgentExecutionError, agent_service
+from app.services.brand_matcher import brand_matches_store
 from app.services.coupon_parser import parse_coupon_placeholder
 from app.services.coupon_registry import coupon_registry
 from app.services.public_store_client import public_store_client
@@ -43,18 +46,37 @@ def list_coupons(user_id: str) -> list[RegisteredCoupon]:
 def list_nearby_stores(
     latitude: float,
     longitude: float,
+    user_id: str = "demo-user",
     radius_m: int = 1000,
     limit: int = 5,
 ) -> NearbyStoresResponse:
+    if not user_id.strip() or len(user_id) > 128:
+        raise HTTPException(status_code=422, detail="invalid user_id")
     if not -90 <= latitude <= 90 or not -180 <= longitude <= 180:
         raise HTTPException(status_code=422, detail="invalid coordinates")
     if not 100 <= radius_m <= 5000:
         raise HTTPException(status_code=422, detail="radius_m must be between 100 and 5000")
     if not 1 <= limit <= 20:
         raise HTTPException(status_code=422, detail="limit must be between 1 and 20")
+
+    today = datetime.now(UTC).date()
+    active_coupons = [
+        coupon for coupon in coupon_registry.list_for_user(user_id) if coupon.expiry_date >= today
+    ]
     response = public_store_client.nearby(latitude, longitude, radius_m)
-    closest = sorted(response.stores, key=lambda store: store.distance_m)[:limit]
-    return response.model_copy(update={"stores": closest})
+    eligible_stores = [
+        store
+        for store in response.stores
+        if any(brand_matches_store(coupon.brand, store.name) for coupon in active_coupons)
+    ]
+    closest = sorted(eligible_stores, key=lambda store: store.distance_m)[:limit]
+
+    notice = response.notice
+    if notice is None and not active_coupons:
+        notice = "유효한 등록 쿠폰이 없어 표시할 매장이 없습니다."
+    elif notice is None and not closest:
+        notice = "반경 안에 등록 쿠폰을 사용할 수 있는 매장이 없습니다."
+    return response.model_copy(update={"stores": closest, "notice": notice})
 
 
 @router.post("/recommendations", response_model=RecommendationResponse)

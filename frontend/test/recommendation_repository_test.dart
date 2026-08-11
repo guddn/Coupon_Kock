@@ -90,6 +90,7 @@ void main() {
   test('parses nearby public stores', () async {
     final client = MockClient((request) async {
       expect(request.url.path, '/api/stores/nearby');
+      expect(request.url.queryParameters['user_id'], 'demo-user');
       expect(request.url.queryParameters['radius_m'], '1000');
       expect(request.url.queryParameters['limit'], '5');
       return http.Response(

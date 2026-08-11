@@ -55,6 +55,7 @@ class ApiRecommendationRepository implements RecommendationRepository {
   ) {
     return Uri.parse('$_normalizedBase/api/stores/nearby').replace(
       queryParameters: {
+        'user_id': 'demo-user',
         'latitude': '$latitude',
         'longitude': '$longitude',
         'radius_m': '$radiusMeters',

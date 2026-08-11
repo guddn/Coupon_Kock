@@ -15,12 +15,14 @@ class NearbyScreen extends StatefulWidget {
     required this.repository,
     required this.locationResult,
     required this.locationLoading,
+    required this.couponRevision,
     required this.onLocationAction,
   });
 
   final RecommendationRepository repository;
   final LocationAccessResult? locationResult;
   final bool locationLoading;
+  final int couponRevision;
   final VoidCallback onLocationAction;
 
   @override
@@ -43,9 +45,14 @@ class _NearbyScreenState extends State<NearbyScreen> {
     super.didUpdateWidget(oldWidget);
     final oldLocation = oldWidget.locationResult?.location;
     final newLocation = widget.locationResult?.location;
-    if (newLocation != null &&
-        (oldLocation == null || oldLocation.distanceTo(newLocation) >= 5)) {
+    final locationChanged =
+        newLocation != null &&
+        (oldLocation == null || oldLocation.distanceTo(newLocation) >= 5);
+    final couponsChanged = oldWidget.couponRevision != widget.couponRevision;
+    if (locationChanged || couponsChanged) {
       _loadIfReady();
+    }
+    if (locationChanged) {
       final controller = _mapController;
       if (controller != null) {
         unawaited(
@@ -143,7 +150,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
         return Scaffold(
           appBar: AppBar(
             title: const Text(
-              '내 주변 매장',
+              '내 쿠폰 사용 가능 매장',
               style: TextStyle(fontWeight: FontWeight.w800),
             ),
             actions: [
@@ -201,7 +208,15 @@ class _NearbyScreenState extends State<NearbyScreen> {
                 child: snapshot.connectionState != ConnectionState.done
                     ? const Center(child: CircularProgressIndicator())
                     : stores.isEmpty
-                    ? const Center(child: Text('반경 1km 안에 표시할 매장이 없습니다.'))
+                    ? const Center(
+                        child: Padding(
+                          padding: EdgeInsets.all(24),
+                          child: Text(
+                            '반경 1km 안에 등록 쿠폰을 사용할 수 있는 매장이 없습니다.',
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      )
                     : Column(
                         children: [
                           Padding(
@@ -210,7 +225,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
                               children: [
                                 Expanded(
                                   child: Text(
-                                    '가까운 매장 ${stores.length}곳',
+                                    '쿠폰 사용 가능 · 가까운 ${stores.length}곳',
                                     style: const TextStyle(
                                       fontSize: 17,
                                       fontWeight: FontWeight.w800,

@@ -34,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _loading = false;
   bool _locationLoading = true;
   int _selectedIndex = 0;
+  int _couponRevision = 0;
   StreamSubscription<AppLocation>? _locationSubscription;
 
   @override
@@ -64,7 +65,10 @@ class _HomeScreenState extends State<HomeScreen> {
   Future<void> _createCoupon(CouponDraft draft) async {
     await widget.repository.createCoupon(draft);
     if (!mounted) return;
-    setState(() => _coupons = widget.repository.loadCoupons());
+    setState(() {
+      _coupons = widget.repository.loadCoupons();
+      _couponRevision += 1;
+    });
   }
 
   Future<void> _requestLocationAtStartup() async {
@@ -153,6 +157,7 @@ class _HomeScreenState extends State<HomeScreen> {
               repository: widget.repository,
               locationResult: _locationResult,
               locationLoading: _locationLoading,
+              couponRevision: _couponRevision,
               onLocationAction: _handleLocationAction,
             ),
             CouponScreen(coupons: _coupons, onCreate: _createCoupon),
