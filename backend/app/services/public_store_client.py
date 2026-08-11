@@ -90,6 +90,8 @@ def _fixture_response(latitude: float, longitude: float, notice: str) -> NearbyS
         ("fixture-cafe", "쿠폰콕 카페", "카페", "현재 위치 북동쪽", 0.00045, 0.00035),
         ("fixture-store", "쿠폰콕 편의점", "편의점", "현재 위치 서쪽", 0.00010, -0.00055),
         ("fixture-food", "쿠폰콕 식당", "음식점", "현재 위치 남동쪽", -0.00050, 0.00030),
+        ("fixture-shop", "쿠폰콕 마트", "대형마트", "현재 위치 북쪽", 0.00072, 0.00005),
+        ("fixture-beauty", "쿠폰콕 뷰티", "미용", "현재 위치 남서쪽", -0.00055, -0.00048),
     )
     stores = []
     for store_id, name, category, address, lat_offset, lon_offset in fixtures:

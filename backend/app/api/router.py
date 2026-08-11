@@ -44,12 +44,17 @@ def list_nearby_stores(
     latitude: float,
     longitude: float,
     radius_m: int = 1000,
+    limit: int = 5,
 ) -> NearbyStoresResponse:
     if not -90 <= latitude <= 90 or not -180 <= longitude <= 180:
         raise HTTPException(status_code=422, detail="invalid coordinates")
     if not 100 <= radius_m <= 5000:
         raise HTTPException(status_code=422, detail="radius_m must be between 100 and 5000")
-    return public_store_client.nearby(latitude, longitude, radius_m)
+    if not 1 <= limit <= 20:
+        raise HTTPException(status_code=422, detail="limit must be between 1 and 20")
+    response = public_store_client.nearby(latitude, longitude, radius_m)
+    closest = sorted(response.stores, key=lambda store: store.distance_m)[:limit]
+    return response.model_copy(update={"stores": closest})
 
 
 @router.post("/recommendations", response_model=RecommendationResponse)

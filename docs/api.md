@@ -41,10 +41,10 @@
 ## `GET /api/stores/nearby`
 
 ```text
-/api/stores/nearby?latitude=37.2822&longitude=127.0437&radius_m=1000
+/api/stores/nearby?latitude=37.2822&longitude=127.0437&radius_m=1000&limit=5
 ```
 
-백엔드만 공공데이터포털의 소상공인시장진흥공단 `storeListInRadius` API를 호출합니다. 앱에는 공공데이터 인증키를 전달하지 않습니다. 응답의 `data_source`는 실제 연동 시 `public_data`, 키가 없거나 호출에 실패하면 `fixture`이며 이 경우 `notice`도 함께 반환합니다.
+백엔드만 공공데이터포털의 소상공인시장진흥공단 `storeListInRadius` API를 호출합니다. 앱에는 공공데이터 인증키를 전달하지 않습니다. 결과는 현재 위치와의 거리 오름차순으로 정렬되며 기본적으로 가장 가까운 5개 매장을 반환합니다. `limit`은 1~20 범위에서 지정할 수 있습니다. 응답의 `data_source`는 실제 연동 시 `public_data`, 키가 없거나 호출에 실패하면 `fixture`이며 이 경우 `notice`도 함께 반환합니다.
 
 ## `POST /api/recommendations`
 

@@ -27,6 +27,8 @@ class NearbyScreen extends StatefulWidget {
 
 class _NearbyScreenState extends State<NearbyScreen> {
   Future<NearbyStoresResult>? _stores;
+  GoogleMapController? _mapController;
+  String? _selectedStoreId;
 
   @override
   void initState() {
@@ -45,6 +47,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
   void _loadIfReady() {
     final location = widget.locationResult?.location;
     if (location == null) return;
+    _selectedStoreId = null;
     _stores = widget.repository.loadNearbyStores(
       latitude: location.latitude,
       longitude: location.longitude,
@@ -52,6 +55,13 @@ class _NearbyScreenState extends State<NearbyScreen> {
   }
 
   void _reload() => setState(_loadIfReady);
+
+  Future<void> _selectStore(NearbyStore store) async {
+    setState(() => _selectedStoreId = store.id);
+    await _mapController?.animateCamera(
+      CameraUpdate.newLatLngZoom(LatLng(store.latitude, store.longitude), 17),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -82,17 +92,25 @@ class _NearbyScreenState extends State<NearbyScreen> {
           );
         }
         final result = snapshot.data;
-        final stores = result?.stores ?? const <NearbyStore>[];
+        final stores = (result?.stores ?? const <NearbyStore>[])
+            .take(5)
+            .toList();
         final currentPosition = LatLng(location.latitude, location.longitude);
-        final markers = stores
+        final markers = stores.indexed
             .map(
-              (store) => Marker(
-                markerId: MarkerId(store.id),
-                position: LatLng(store.latitude, store.longitude),
+              (entry) => Marker(
+                markerId: MarkerId(entry.$2.id),
+                position: LatLng(entry.$2.latitude, entry.$2.longitude),
+                icon: BitmapDescriptor.defaultMarkerWithHue(
+                  entry.$2.id == _selectedStoreId
+                      ? BitmapDescriptor.hueOrange
+                      : BitmapDescriptor.hueRed,
+                ),
+                onTap: () => setState(() => _selectedStoreId = entry.$2.id),
                 infoWindow: InfoWindow(
-                  title: store.name,
+                  title: '${entry.$1 + 1}. ${entry.$2.name}',
                   snippet:
-                      '${store.category} · ${store.distanceMeters.round()}m',
+                      '${entry.$2.category} · ${entry.$2.distanceMeters.round()}m',
                 ),
               ),
             )
@@ -147,6 +165,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
                   myLocationButtonEnabled: true,
                   zoomControlsEnabled: false,
                   markers: markers,
+                  onMapCreated: (controller) => _mapController = controller,
                   circles: {
                     Circle(
                       circleId: const CircleId('current-location-radius'),
@@ -165,30 +184,75 @@ class _NearbyScreenState extends State<NearbyScreen> {
                     ? const Center(child: CircularProgressIndicator())
                     : stores.isEmpty
                     ? const Center(child: Text('반경 1km 안에 표시할 매장이 없습니다.'))
-                    : ListView.separated(
-                        padding: const EdgeInsets.all(12),
-                        itemCount: stores.length,
-                        separatorBuilder: (_, _) => const Divider(height: 1),
-                        itemBuilder: (_, index) {
-                          final store = stores[index];
-                          return ListTile(
-                            leading: const CircleAvatar(
-                              child: Icon(Icons.storefront_outlined),
+                    : Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 6),
+                            child: Row(
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    '가까운 매장 ${stores.length}곳',
+                                    style: const TextStyle(
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w800,
+                                    ),
+                                  ),
+                                ),
+                                _DataSourceBadge(isFixture: result!.isFixture),
+                              ],
                             ),
-                            title: Text(
-                              store.name,
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w700,
-                              ),
+                          ),
+                          Expanded(
+                            child: ListView.separated(
+                              padding: const EdgeInsets.fromLTRB(12, 4, 12, 12),
+                              itemCount: stores.length,
+                              separatorBuilder: (_, _) =>
+                                  const Divider(height: 1),
+                              itemBuilder: (_, index) {
+                                final store = stores[index];
+                                final selected = store.id == _selectedStoreId;
+                                return ListTile(
+                                  selected: selected,
+                                  selectedTileColor: const Color(0xFFFFF3D4),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  onTap: () => _selectStore(store),
+                                  leading: CircleAvatar(
+                                    backgroundColor: selected
+                                        ? const Color(0xFFFDB846)
+                                        : const Color(0xFFFFF3D4),
+                                    foregroundColor: Colors.black87,
+                                    child: Text(
+                                      '${index + 1}',
+                                      style: const TextStyle(
+                                        fontWeight: FontWeight.w800,
+                                      ),
+                                    ),
+                                  ),
+                                  title: Text(
+                                    store.name,
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    '${store.category} · ${store.address}',
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  trailing: Text(
+                                    '${store.distanceMeters.round()}m',
+                                    style: const TextStyle(
+                                      fontWeight: FontWeight.w700,
+                                    ),
+                                  ),
+                                );
+                              },
                             ),
-                            subtitle: Text(
-                              '${store.category} · ${store.address}',
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            trailing: Text('${store.distanceMeters.round()}m'),
-                          );
-                        },
+                          ),
+                        ],
                       ),
               ),
             ],
@@ -197,6 +261,25 @@ class _NearbyScreenState extends State<NearbyScreen> {
       },
     );
   }
+}
+
+class _DataSourceBadge extends StatelessWidget {
+  const _DataSourceBadge({required this.isFixture});
+
+  final bool isFixture;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    padding: const EdgeInsets.symmetric(horizontal: 9, vertical: 5),
+    decoration: BoxDecoration(
+      color: isFixture ? const Color(0xFFFFE0B2) : const Color(0xFFC8E6C9),
+      borderRadius: BorderRadius.circular(999),
+    ),
+    child: Text(
+      isFixture ? '샘플 데이터' : '공공데이터',
+      style: const TextStyle(fontSize: 11, fontWeight: FontWeight.w700),
+    ),
+  );
 }
 
 class _LocationRequired extends StatelessWidget {

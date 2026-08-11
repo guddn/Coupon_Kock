@@ -58,6 +58,7 @@ class ApiRecommendationRepository implements RecommendationRepository {
         'latitude': '$latitude',
         'longitude': '$longitude',
         'radius_m': '$radiusMeters',
+        'limit': '5',
       },
     );
   }

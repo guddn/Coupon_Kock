@@ -33,8 +33,12 @@ def test_nearby_stores_falls_back_to_fixture_without_service_key() -> None:
     )
     assert response.status_code == 200
     assert response.json()["data_source"] == "fixture"
-    assert len(response.json()["stores"]) == 3
-    assert response.json()["stores"][0]["distance_m"] >= 0
+    stores = response.json()["stores"]
+    assert len(stores) == 5
+    assert stores[0]["distance_m"] >= 0
+    assert [store["distance_m"] for store in stores] == sorted(
+        store["distance_m"] for store in stores
+    )
 
 
 def test_nearby_stores_rejects_excessive_radius() -> None:
@@ -43,6 +47,20 @@ def test_nearby_stores_rejects_excessive_radius() -> None:
         params={"latitude": 37.2822, "longitude": 127.0437, "radius_m": 10_000},
     )
     assert response.status_code == 422
+
+
+def test_nearby_stores_supports_smaller_limit() -> None:
+    response = client.get(
+        "/api/stores/nearby",
+        params={
+            "latitude": 37.2822,
+            "longitude": 127.0437,
+            "radius_m": 1000,
+            "limit": 2,
+        },
+    )
+    assert response.status_code == 200
+    assert len(response.json()["stores"]) == 2
 
 
 def test_recommendation_uses_registered_matching_coupon() -> None:
