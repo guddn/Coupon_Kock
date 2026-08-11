@@ -13,6 +13,7 @@ class NearbyScreen extends StatefulWidget {
   const NearbyScreen({
     super.key,
     required this.repository,
+    required this.isActive,
     required this.locationResult,
     required this.locationLoading,
     required this.couponRevision,
@@ -20,6 +21,7 @@ class NearbyScreen extends StatefulWidget {
   });
 
   final RecommendationRepository repository;
+  final bool isActive;
   final LocationAccessResult? locationResult;
   final bool locationLoading;
   final int couponRevision;
@@ -33,6 +35,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
   Future<NearbyStoresResult>? _stores;
   GoogleMapController? _mapController;
   String? _selectedStoreId;
+  String? _lastCameraFitSignature;
 
   @override
   void initState() {
@@ -49,8 +52,14 @@ class _NearbyScreenState extends State<NearbyScreen> {
         newLocation != null &&
         (oldLocation == null || oldLocation.distanceTo(newLocation) >= 5);
     final couponsChanged = oldWidget.couponRevision != widget.couponRevision;
-    if (locationChanged || couponsChanged) {
+    final becameActive = !oldWidget.isActive && widget.isActive;
+    if (becameActive ||
+        (widget.isActive && (locationChanged || couponsChanged))) {
       _loadIfReady();
+    }
+    if (!widget.isActive) {
+      _mapController = null;
+      _lastCameraFitSignature = null;
     }
     if (locationChanged) {
       final controller = _mapController;
@@ -67,6 +76,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
   }
 
   void _loadIfReady() {
+    if (!widget.isActive) return;
     final location = widget.locationResult?.location;
     if (location == null) return;
     _selectedStoreId = null;
@@ -85,8 +95,72 @@ class _NearbyScreenState extends State<NearbyScreen> {
     );
   }
 
+  double _distanceFromCurrentLocation(
+    AppLocation currentLocation,
+    NearbyStore store,
+  ) => currentLocation.distanceTo(AppLocation(store.latitude, store.longitude));
+
+  Future<void> _fitCameraToResults(
+    LatLng currentPosition,
+    List<_RankedStore> stores,
+  ) async {
+    final controller = _mapController;
+    if (controller == null || stores.isEmpty) return;
+    final points = <LatLng>[
+      currentPosition,
+      ...stores.map(
+        (ranked) => LatLng(ranked.store.latitude, ranked.store.longitude),
+      ),
+    ];
+    var minLatitude = points.first.latitude;
+    var maxLatitude = points.first.latitude;
+    var minLongitude = points.first.longitude;
+    var maxLongitude = points.first.longitude;
+    for (final point in points.skip(1)) {
+      minLatitude = minLatitude < point.latitude ? minLatitude : point.latitude;
+      maxLatitude = maxLatitude > point.latitude ? maxLatitude : point.latitude;
+      minLongitude = minLongitude < point.longitude
+          ? minLongitude
+          : point.longitude;
+      maxLongitude = maxLongitude > point.longitude
+          ? maxLongitude
+          : point.longitude;
+    }
+    if (minLatitude == maxLatitude && minLongitude == maxLongitude) {
+      await controller.animateCamera(
+        CameraUpdate.newLatLngZoom(currentPosition, 17),
+      );
+      return;
+    }
+    await controller.animateCamera(
+      CameraUpdate.newLatLngBounds(
+        LatLngBounds(
+          southwest: LatLng(minLatitude, minLongitude),
+          northeast: LatLng(maxLatitude, maxLongitude),
+        ),
+        48,
+      ),
+    );
+  }
+
+  void _scheduleCameraFit(LatLng currentPosition, List<_RankedStore> stores) {
+    final signature = [
+      currentPosition.latitude.toStringAsFixed(6),
+      currentPosition.longitude.toStringAsFixed(6),
+      ...stores.map((ranked) => ranked.store.id),
+    ].join('|');
+    if (_lastCameraFitSignature == signature) return;
+    _lastCameraFitSignature = signature;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) unawaited(_fitCameraToResults(currentPosition, stores));
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
+    // Google Maps Web must be created only after this IndexedStack tab becomes
+    // visible. Creating a hidden platform view can leave it at a stale size.
+    if (!widget.isActive) return const SizedBox.shrink();
     if (kIsWeb && AppConfig.googleMapsApiKey.isEmpty) {
       return _LocationRequired(
         title: 'Google Maps API 키가 필요해요',
@@ -114,28 +188,47 @@ class _NearbyScreenState extends State<NearbyScreen> {
           );
         }
         final result = snapshot.data;
-        final sortedStores = [...(result?.stores ?? const <NearbyStore>[])]
-          ..sort(
-            (first, second) =>
-                first.distanceMeters.compareTo(second.distanceMeters),
-          );
-        final stores = sortedStores.take(5).toList();
+        final rankedStores =
+            (result?.stores ?? const <NearbyStore>[])
+                .map(
+                  (store) => _RankedStore(
+                    store: store,
+                    distanceMeters: _distanceFromCurrentLocation(
+                      location,
+                      store,
+                    ),
+                  ),
+                )
+                .toList()
+              ..sort((first, second) {
+                final distanceComparison = first.distanceMeters.compareTo(
+                  second.distanceMeters,
+                );
+                if (distanceComparison != 0) return distanceComparison;
+                return first.store.name.compareTo(second.store.name);
+              });
+        final stores = rankedStores.take(5).toList();
         final currentPosition = LatLng(location.latitude, location.longitude);
+        _scheduleCameraFit(currentPosition, stores);
         final markers = stores.indexed
             .map(
               (entry) => Marker(
-                markerId: MarkerId(entry.$2.id),
-                position: LatLng(entry.$2.latitude, entry.$2.longitude),
+                markerId: MarkerId(entry.$2.store.id),
+                position: LatLng(
+                  entry.$2.store.latitude,
+                  entry.$2.store.longitude,
+                ),
                 icon: BitmapDescriptor.defaultMarkerWithHue(
-                  entry.$2.id == _selectedStoreId
+                  entry.$2.store.id == _selectedStoreId
                       ? BitmapDescriptor.hueOrange
                       : BitmapDescriptor.hueRed,
                 ),
-                onTap: () => setState(() => _selectedStoreId = entry.$2.id),
+                onTap: () =>
+                    setState(() => _selectedStoreId = entry.$2.store.id),
                 infoWindow: InfoWindow(
-                  title: '${entry.$1 + 1}. ${entry.$2.name}',
+                  title: '${entry.$1 + 1}. ${entry.$2.store.name}',
                   snippet:
-                      '${entry.$2.category} · ${entry.$2.distanceMeters.round()}m',
+                      '${entry.$2.store.category} · ${entry.$2.distanceMeters.round()}m',
                 ),
               ),
             )
@@ -181,26 +274,31 @@ class _NearbyScreenState extends State<NearbyScreen> {
                 ),
               Expanded(
                 flex: 3,
-                child: GoogleMap(
-                  initialCameraPosition: CameraPosition(
-                    target: currentPosition,
-                    zoom: 15.5,
-                  ),
-                  myLocationEnabled: true,
-                  myLocationButtonEnabled: true,
-                  zoomControlsEnabled: false,
-                  markers: markers,
-                  onMapCreated: (controller) => _mapController = controller,
-                  circles: {
-                    Circle(
-                      circleId: const CircleId('current-location-radius'),
-                      center: currentPosition,
-                      radius: 25,
-                      fillColor: Colors.blue.withValues(alpha: 0.18),
-                      strokeColor: Colors.blue,
-                      strokeWidth: 2,
+                child: SizedBox.expand(
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(
+                      target: currentPosition,
+                      zoom: 15.5,
                     ),
-                  },
+                    myLocationEnabled: true,
+                    myLocationButtonEnabled: true,
+                    zoomControlsEnabled: false,
+                    markers: markers,
+                    onMapCreated: (controller) {
+                      _mapController = controller;
+                      unawaited(_fitCameraToResults(currentPosition, stores));
+                    },
+                    circles: {
+                      Circle(
+                        circleId: const CircleId('current-location-radius'),
+                        center: currentPosition,
+                        radius: 25,
+                        fillColor: Colors.blue.withValues(alpha: 0.18),
+                        strokeColor: Colors.blue,
+                        strokeWidth: 2,
+                      ),
+                    },
+                  ),
                 ),
               ),
               Expanded(
@@ -243,7 +341,8 @@ class _NearbyScreenState extends State<NearbyScreen> {
                               separatorBuilder: (_, _) =>
                                   const Divider(height: 1),
                               itemBuilder: (_, index) {
-                                final store = stores[index];
+                                final rankedStore = stores[index];
+                                final store = rankedStore.store;
                                 final selected = store.id == _selectedStoreId;
                                 return ListTile(
                                   selected: selected,
@@ -276,7 +375,7 @@ class _NearbyScreenState extends State<NearbyScreen> {
                                     overflow: TextOverflow.ellipsis,
                                   ),
                                   trailing: Text(
-                                    '${store.distanceMeters.round()}m',
+                                    '${rankedStore.distanceMeters.round()}m',
                                     style: const TextStyle(
                                       fontWeight: FontWeight.w700,
                                     ),
@@ -294,6 +393,13 @@ class _NearbyScreenState extends State<NearbyScreen> {
       },
     );
   }
+}
+
+class _RankedStore {
+  const _RankedStore({required this.store, required this.distanceMeters});
+
+  final NearbyStore store;
+  final double distanceMeters;
 }
 
 class _DataSourceBadge extends StatelessWidget {

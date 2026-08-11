@@ -1,6 +1,10 @@
+from types import SimpleNamespace
+
 from fastapi.testclient import TestClient
 
+import app.api.router as router_module
 from app.main import app
+from app.models.schemas import NearbyStore, NearbyStoresResponse
 
 client = TestClient(app)
 
@@ -106,6 +110,60 @@ def test_nearby_stores_excludes_stores_without_registered_coupon() -> None:
 
     assert response.status_code == 200
     assert response.json()["stores"] == []
+
+
+def test_nearby_pipeline_filters_coupon_then_sorts_and_limits(monkeypatch) -> None:
+    user_id = "nearby-pipeline-user"
+    _register_active_coupon(user_id, brand="스타벅스")
+    source_stores = [
+        NearbyStore(
+            store_id=f"starbucks-{distance}",
+            name=f"스타벅스 {distance}m점",
+            category="카페",
+            address="수원시",
+            latitude=37.2822,
+            longitude=127.0437,
+            distance_m=distance,
+        )
+        for distance in (600, 100, 500, 200, 400, 300)
+    ]
+    source_stores.append(
+        NearbyStore(
+            store_id="unrelated-50",
+            name="무관한 카페",
+            category="카페",
+            address="수원시",
+            latitude=37.2822,
+            longitude=127.0437,
+            distance_m=50,
+        )
+    )
+    monkeypatch.setattr(
+        router_module,
+        "public_store_client",
+        SimpleNamespace(
+            nearby=lambda latitude, longitude, radius_m: NearbyStoresResponse(
+                data_source="public_data",
+                stores=source_stores,
+            )
+        ),
+    )
+
+    response = client.get(
+        "/api/stores/nearby",
+        params={
+            "user_id": user_id,
+            "latitude": 37.2822,
+            "longitude": 127.0437,
+            "radius_m": 1000,
+            "limit": 5,
+        },
+    )
+
+    assert response.status_code == 200
+    stores = response.json()["stores"]
+    assert [store["distance_m"] for store in stores] == [100, 200, 300, 400, 500]
+    assert all("스타벅스" in store["name"] for store in stores)
 
 
 def test_recommendation_uses_registered_matching_coupon() -> None:

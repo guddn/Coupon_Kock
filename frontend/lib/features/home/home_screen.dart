@@ -155,6 +155,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             NearbyScreen(
               repository: widget.repository,
+              isActive: _selectedIndex == 1,
               locationResult: _locationResult,
               locationLoading: _locationLoading,
               couponRevision: _couponRevision,
