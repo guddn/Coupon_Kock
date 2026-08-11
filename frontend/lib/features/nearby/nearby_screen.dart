@@ -1,5 +1,7 @@
-import 'package:flutter/material.dart';
+import 'dart:async';
+
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../domain/models/nearby_store.dart';
@@ -39,8 +41,21 @@ class _NearbyScreenState extends State<NearbyScreen> {
   @override
   void didUpdateWidget(covariant NearbyScreen oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.locationResult?.location != widget.locationResult?.location) {
+    final oldLocation = oldWidget.locationResult?.location;
+    final newLocation = widget.locationResult?.location;
+    if (newLocation != null &&
+        (oldLocation == null || oldLocation.distanceTo(newLocation) >= 5)) {
       _loadIfReady();
+      final controller = _mapController;
+      if (controller != null) {
+        unawaited(
+          controller.animateCamera(
+            CameraUpdate.newLatLng(
+              LatLng(newLocation.latitude, newLocation.longitude),
+            ),
+          ),
+        );
+      }
     }
   }
 
@@ -92,9 +107,12 @@ class _NearbyScreenState extends State<NearbyScreen> {
           );
         }
         final result = snapshot.data;
-        final stores = (result?.stores ?? const <NearbyStore>[])
-            .take(5)
-            .toList();
+        final sortedStores = [...(result?.stores ?? const <NearbyStore>[])]
+          ..sort(
+            (first, second) =>
+                first.distanceMeters.compareTo(second.distanceMeters),
+          );
+        final stores = sortedStores.take(5).toList();
         final currentPosition = LatLng(location.latitude, location.longitude);
         final markers = stores.indexed
             .map(

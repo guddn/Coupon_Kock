@@ -16,7 +16,7 @@ void main() {
     await tester.pumpAndSettle();
 
     expect(find.text('쿠폰콕'), findsOneWidget);
-    expect(find.text('현재 위치 확인됨 · 반경 100m'), findsOneWidget);
+    expect(find.text('현재 위치 확인됨 · 실시간 거리 사용 중'), findsOneWidget);
     expect(locationGateway.startupRequests, 1);
 
     await tester.tap(find.text('10,000원 혜택 비교'));
@@ -43,6 +43,9 @@ class _FakeLocationGateway implements LocationGateway {
   Future<LocationAccessResult> refresh() async {
     return const LocationAccessResult.granted(AppLocation(37.2822, 127.0437));
   }
+
+  @override
+  Stream<AppLocation> watch() => const Stream.empty();
 
   @override
   Future<bool> openRelevantSettings(LocationAccessStatus status) async => false;

@@ -12,6 +12,11 @@ class GeolocatorLocationGateway implements LocationGateway {
     timeLimit: Duration(seconds: 12),
   );
 
+  static const _streamSettings = LocationSettings(
+    accuracy: LocationAccuracy.high,
+    distanceFilter: 5,
+  );
+
   @override
   Future<LocationAccessResult> requestAtStartup() {
     return _resolvePosition(requestPermission: true);
@@ -21,6 +26,11 @@ class GeolocatorLocationGateway implements LocationGateway {
   Future<LocationAccessResult> refresh() {
     return _resolvePosition(requestPermission: true);
   }
+
+  @override
+  Stream<AppLocation> watch() => Geolocator.getPositionStream(
+    locationSettings: _streamSettings,
+  ).map((position) => AppLocation(position.latitude, position.longitude));
 
   Future<LocationAccessResult> _resolvePosition({
     required bool requestPermission,

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 
 import '../../domain/models/coupon.dart';
@@ -32,6 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
   bool _loading = false;
   bool _locationLoading = true;
   int _selectedIndex = 0;
+  StreamSubscription<AppLocation>? _locationSubscription;
 
   @override
   void initState() {
@@ -40,6 +43,22 @@ class _HomeScreenState extends State<HomeScreen> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _requestLocationAtStartup();
     });
+  }
+
+  @override
+  void dispose() {
+    unawaited(_locationSubscription?.cancel());
+    super.dispose();
+  }
+
+  void _syncLocationUpdates(LocationAccessResult result) {
+    unawaited(_locationSubscription?.cancel());
+    _locationSubscription = null;
+    if (!result.isGranted) return;
+    _locationSubscription = widget.locationGateway.watch().listen((location) {
+      if (!mounted) return;
+      setState(() => _locationResult = LocationAccessResult.granted(location));
+    }, onError: (_) {});
   }
 
   Future<void> _createCoupon(CouponDraft draft) async {
@@ -56,6 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _locationResult = result;
       _locationLoading = false;
     });
+    _syncLocationUpdates(result);
   }
 
   Future<void> _handleLocationAction() async {
@@ -77,6 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
       _locationResult = result;
       _locationLoading = false;
     });
+    _syncLocationUpdates(result);
   }
 
   Future<void> _requestRecommendation() async {
