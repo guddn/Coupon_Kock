@@ -6,11 +6,12 @@ build-backend = "setuptools.build_meta"
 name = "coupon-kock-api"
 version = "0.1.0"
 description = "Location-aware coupon and benefit recommendation API"
-requires-python = ">=3.11"
+requires-python = ">=3.11,<3.14"
 dependencies = [
   "fastapi",
   "google-adk==2.6.3",
   "google-cloud-firestore",
+  "google-genai",
   "pydantic",
   "uvicorn[standard]",
 ]
@@ -26,6 +27,12 @@ dev = [
   "pytest",
   "ruff",
 ]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["app*"]
+exclude = ["data*", "scripts*", "tests*"]
+namespaces = false
 
 [tool.pytest.ini_options]
 pythonpath = ["."]
