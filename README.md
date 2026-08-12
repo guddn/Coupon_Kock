@@ -59,15 +59,6 @@ flutter run -d chrome --web-port=5000 \
 
 Google Cloud Console에서 Android용 `Maps SDK for Android`, Web용 `Maps JavaScript API`를 활성화해야 합니다. 플랫폼별로 키를 분리하고 Android 패키지/SHA-1 또는 Web HTTP referrer 제한을 적용하세요. 현재 쿠폰 등록은 수동 입력이며 이미지 OCR은 후속 ML Kit 어댑터 범위입니다.
 
-## 공공데이터 준비
-
-1. 공공데이터포털에서 `소상공인시장진흥공단_상가(상권)정보_20260630` CSV를 내려받습니다.
-2. 원본은 Git에 올리지 않고 `data/raw/stores/`에 둡니다.
-3. `python backend/scripts/ingest_stores.py <csv-path> --output data/processed/stores.sample.jsonl`을 실행합니다.
-4. 공정위 브랜드별 위치정보는 대표 브랜드 alias 보조로, 전국지역화폐가맹점표준데이터는 교차검증용으로 사용합니다.
-
-상세 출처와 필드/품질 규칙은 [docs/public-data.md](docs/public-data.md), 전체 구성은 [docs/architecture.md](docs/architecture.md)를 확인하세요.
-
 ## 배포
 
 - Backend: Cloud Run (`asia-northeast3` 기본)
