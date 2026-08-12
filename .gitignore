@@ -1,7 +1,6 @@
 # Local review/temp files
 .codex/
-.codex-docx-work/
-.codex-ppt-work/
+.codex*
 
 # Secrets and local configuration
 .env

@@ -17,11 +17,12 @@ MVP는 KB국민카드 공식 상품 페이지에서 검수한 카드 문서 3개
 
 로컬 기본값은 자격증명이 필요 없는 256차원 해시 임베딩입니다. 문서 검색, 코사인 유사도,
 카드/매장 필터, 공식 출처 반환까지 운영과 같은 흐름을 재현합니다.
+프로젝트는 Python 3.11~3.13을 지원하며 저장소의 `.venv`는 Python 3.12입니다.
 
 ```bash
 cd backend
-source .venv/Scripts/activate
-uvicorn app.main:app --reload --port 8080
+.venv/Scripts/python.exe -m pip install -e '.[gcp]'
+.venv/Scripts/python.exe -m uvicorn app.main:app --reload --port 8080
 
 curl -sS 'http://localhost:8080/api/benefits/status'
 curl -sS -G 'http://localhost:8080/api/benefits/search' \
@@ -47,6 +48,9 @@ export GCP_PROJECT_ID="$PROJECT_ID"
 export VERTEX_LOCATION='global'
 export EMBEDDING_MODEL='gemini-embedding-001'
 export EMBEDDING_DIMENSIONS='768'
+
+gcloud auth application-default login
+gcloud auth application-default set-quota-project "$PROJECT_ID"
 
 python scripts/ingest_card_benefits.py --verify-only
 python scripts/ingest_card_benefits.py --dry-run
